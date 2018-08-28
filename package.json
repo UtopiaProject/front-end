@@ -1,0 +1,34 @@
+{
+  "name": "front-end",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.5",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-enzyme": "^1.0.0-beta.1",
+    "coveralls": "^3.0.2",
+    "enzyme": "^3.5.0",
+    "jsdom": "^12.0.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^5.2.0",
+    "node-fetch": "^2.2.0",
+    "nyc": "^13.0.1",
+    "sinon": "^6.1.5",
+    "sinon-chai": "^3.2.0"
+  }
+}
