@@ -1,0 +1,28 @@
+.VideoBlock video {
+  position: relative;
+  z-index: -1;
+  object-fit: cover;
+  min-height: 20vh;
+  height: 100%;
+  width: 100%;
+}
+
+.VideoBlock__coverText {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0;
+  top: 15%;
+  left: 0;
+}
+
+@media (min-width: 40rem) {
+  .VideoBlock__coverText {
+    top: 30%;
+    left: 0;
+    font-size: 3rem;
+  }
+}
