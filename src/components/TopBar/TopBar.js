@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import cssClasses from './TopBar.css';
 
@@ -22,6 +23,9 @@ const styles = {
   topBar: {
     background: 'white',
     color: 'black',
+  },
+  button: {
+    background: 'green',
   },
 };
 
@@ -49,9 +53,9 @@ class TopBar extends React.Component {
               Utopia
             </Typography>
             {auth && (
-              <div>
-                Filipe
-              </div>
+              <Button variant="contained" color="primary" className={classes.button}>
+                LogIn
+              </Button>
             )}
           </Toolbar>
         </AppBar>
