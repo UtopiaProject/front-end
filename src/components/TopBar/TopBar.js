@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
+import FunctionalLink from '../../helpers/Router/FunctionalLink/FunctionalLink';
 import cssClasses from './TopBar.css';
 
 const styles = {
@@ -50,11 +51,15 @@ class TopBar extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" className={`${classes.grow} ${cssClasses.utopiaLogo}`}>
-              Utopia
+              <FunctionalLink to="/">
+                Utopia
+              </FunctionalLink>
             </Typography>
             {auth && (
               <Button variant="contained" color="primary" className={classes.button}>
-                LogIn
+                <FunctionalLink to="/signin">
+                  SIGN IN
+                </FunctionalLink>
               </Button>
             )}
           </Toolbar>

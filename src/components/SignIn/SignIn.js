@@ -22,6 +22,7 @@ const styles = theme => ({
       marginLeft: 'auto',
       marginRight: 'auto',
     },
+    height: '72.9vh',
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
@@ -32,7 +33,8 @@ const styles = theme => ({
   },
   avatar: {
     margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: 'white',
+    color: 'black',
   },
   form: {
     width: '100%', // Fix IE11 issue.
@@ -40,6 +42,7 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
+    background: 'green',
   },
 });
 
