@@ -19,10 +19,6 @@ const styles = () => ({
     textAlign: 'center',
     color: 'green',
   },
-  footer: {
-    height: '10rem',
-    background: 'black',
-  },
 });
 
 const Homepage = (props) => {
@@ -46,9 +42,6 @@ const Homepage = (props) => {
       </Grid>
       <Grid item xs={12}>
         <h2 className={classes.sectionHeader}>Participe da construção de um novo futuro</h2>
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.footer} />
       </Grid>
     </div>
   );
