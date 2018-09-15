@@ -8,7 +8,7 @@ module.exports = {
         "react/prefer-stateless-function": 0,
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "strict": 0,
-        "arrow-body-style": ["warn", "never"]
+        "arrow-body-style": 0
     },
     "globals": {
         "document": false,

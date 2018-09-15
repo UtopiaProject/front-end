@@ -19,7 +19,7 @@ export const authenticate = (user) => {
   return (dispatch) => {
     if (user) {
       dispatch(authenticateSuccess(user));
-      history.push('/');
+      history.push('/projects');
     } else {
       dispatch(authenticateFailure('error'));
     }

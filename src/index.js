@@ -14,9 +14,11 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import authenticationReducer from './store/reducers/authentication';
+import projectsReducer from './store/reducers/projects';
 
 const rootReducer = combineReducers({
   auth: authenticationReducer,
+  projects: projectsReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -8,6 +8,7 @@ import TopBar from './components/TopBar/TopBar';
 import Homepage from './containers/Homepage/Homepage';
 import Footer from './components/Footer/Footer';
 import SignIn from './components/SignIn/SignIn';
+import Projects from './containers/Projects/Projects';
 
 const App = () => (
   <Router history={history}>
@@ -16,6 +17,7 @@ const App = () => (
       <Switch>
         <Route path="/" exact component={Homepage} />
         <Route path="/signin" component={SignIn} />
+        <Route path="/projects" component={Projects} />
       </Switch>
       <Footer />
     </div>
