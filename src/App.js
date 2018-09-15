@@ -2,14 +2,15 @@ import React from 'react';
 import 'typeface-roboto';
 import './App.css';
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import history from './helpers/Router/History/History';
 import TopBar from './components/TopBar/TopBar';
 import Homepage from './containers/Homepage/Homepage';
 import Footer from './components/Footer/Footer';
 import SignIn from './components/SignIn/SignIn';
 
 const App = () => (
-  <BrowserRouter>
+  <Router history={history}>
     <div className="App">
       <TopBar />
       <Switch>
@@ -18,7 +19,7 @@ const App = () => (
       </Switch>
       <Footer />
     </div>
-  </BrowserRouter>
+  </Router>
 );
 
 

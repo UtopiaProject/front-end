@@ -40,14 +40,18 @@ const categories = [
 
 const CoreCategories = (props) => {
   const { classes } = props;
+  const coreCategories = categories.map(category => (
+    <CoreCategory key={category.title} title={category.title} pic={category.pic} />
+  ));
+
   return (
     <Grid container spacing={40}>
       <Grid item xs={12}>
         <h2 className={classes.sectionHeader}>Categorias</h2>
       </Grid>
       <Grid item xs={12}>
-        <Grid container spacing={12}>
-          {categories.map(category => (<CoreCategory title={category.title} pic={category.pic} />))}
+        <Grid container spacing={16}>
+          {coreCategories}
         </Grid>
       </Grid>
     </Grid>

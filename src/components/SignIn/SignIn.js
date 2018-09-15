@@ -13,6 +13,7 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import * as actions from '../../store/actions/index';
 
 const styles = theme => ({
   layout: {
@@ -50,6 +51,19 @@ const styles = theme => ({
 });
 
 class SignIn extends Component {
+  state = {
+    email: '',
+    password: '',
+  };
+
+  handleChangeEmail = (event) => {    
+    this.setState({ email: event.target.value });
+  };
+
+  handleChangePassword = (event) => {    
+    this.setState({ password: event.target.value });
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -64,7 +78,14 @@ class SignIn extends Component {
             <form className={classes.form}>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input id="email" name="email" autoComplete="email" autoFocus />
+                <Input 
+                  id="email"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  onChange={(event) => this.handleChangeEmail(event)}
+                  value={this.state.email}
+                />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Password</InputLabel>
@@ -73,6 +94,8 @@ class SignIn extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  onChange={(event) => this.handleChangePassword(event)}
+                  value={this.state.password}
                 />
               </FormControl>
               <Button
@@ -80,6 +103,7 @@ class SignIn extends Component {
                 variant="raised"
                 color="primary"
                 className={classes.submit}
+                onClick={() => this.props.onAuthenticate({email: this.state.email, password: this.state.password}, this.props.history)}
               >
                 Sign in
               </Button>
@@ -101,4 +125,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(SignIn));
+const mapDispatchToProps = dispatch => {
+  return {
+      onAuthenticate: (userData, history) => dispatch(actions.authenticate(userData, history)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SignIn));

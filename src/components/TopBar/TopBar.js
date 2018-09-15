@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Link } from 'react-router-dom';
 import FunctionalLink from '../../helpers/Router/FunctionalLink/FunctionalLink';
 import cssClasses from './TopBar.css';
 
@@ -31,17 +33,26 @@ const styles = {
 };
 
 class TopBar extends React.Component {
-  state = {
-    auth: true,
-  };
-
-  handleChange = (event) => {
-    this.setState({ auth: event.target.checked });
-  };
-
   render() {
-    const { classes } = this.props;
-    const { auth } = this.state;
+    const { classes, user } = this.props;
+
+    let userInfo = null;
+
+    if (user) {
+      userInfo = <Typography>{user.email}</Typography>;
+    } else {
+      userInfo = (
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          component={Link}
+          to="/signin"
+        >
+            SIGN IN
+        </Button>
+      );
+    }
 
     return (
       <div className={classes.root}>
@@ -55,13 +66,7 @@ class TopBar extends React.Component {
                 Utopia
               </FunctionalLink>
             </Typography>
-            {auth && (
-              <Button variant="contained" color="primary" className={classes.button}>
-                <FunctionalLink to="/signin">
-                  SIGN IN
-                </FunctionalLink>
-              </Button>
-            )}
+            {userInfo}
           </Toolbar>
         </AppBar>
       </div>
@@ -69,8 +74,22 @@ class TopBar extends React.Component {
   }
 }
 
-TopBar.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+TopBar.defaultProps = {
+  user: null,
 };
 
-export default withStyles(styles)(TopBar);
+TopBar.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+  }),
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.auth.user,
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(TopBar));

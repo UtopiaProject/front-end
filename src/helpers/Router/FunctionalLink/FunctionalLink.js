@@ -23,7 +23,9 @@ const FunctionalLink = (props) => {
 
 FunctionalLink.propTypes = {
   to: PropTypes.string.isRequired,
-  children: PropTypes.shape({}),
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+  ]),
 };
 
 export default withStyles(styles)(FunctionalLink);

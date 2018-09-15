@@ -26,7 +26,7 @@ const Homepage = (props) => {
 
   return (
     <div className={classes.homepage}>
-      <Grid container spacing={12}>
+      <Grid container spacing={16}>
         <Grid item xs={12}>
           <VideoBanner />
         </Grid>
