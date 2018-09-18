@@ -1,5 +1,12 @@
 import * as actionTypes from './actionTypes';
 
+export const filterProjectsByTitle = (title) => {
+  return {
+    type: actionTypes.FILTER_PROJECTS_TITLE,
+    title,
+  };
+};
+
 export const fetchProjectsSuccess = (projects) => {
   return {
     type: actionTypes.FETCH_PROJECTS_SUCCESS,
