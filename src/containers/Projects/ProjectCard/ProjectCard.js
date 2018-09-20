@@ -10,9 +10,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const styles = {
-  card: {
-
-  },
   media: {
     height: '15rem',
   },
@@ -26,7 +23,7 @@ function MediaCard(props) {
     classes, picture, author, introduction, title,
   } = props;
   return (
-    <Card className={classes.card}>
+    <Card>
       <CardActionArea>
         <CardMedia
           className={classes.media}

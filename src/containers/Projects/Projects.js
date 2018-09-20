@@ -10,11 +10,14 @@ import AppsOutlined from '@material-ui/icons/AppsOutlined';
 import ViewListOutlined from '@material-ui/icons/ViewListOutlined';
 import { TextField, Typography } from '@material-ui/core';
 import ProjectCard from './ProjectCard/ProjectCard';
+import ProjectTable from './ProjectTable/ProjectTable';
 import * as actions from '../../store/actions';
 
 const styles = () => ({
   root: {
     padding: '2rem',
+    maxWidth: '60%',
+    margin: 'auto',
   },
   listing: {
     marginTop: '3rem',
@@ -23,7 +26,7 @@ const styles = () => ({
 
 class Projects extends Component {
   state = {
-    listAsCards: true,
+    listAsCards: false,
   };
 
   handleToggleListing = () => {
@@ -42,7 +45,7 @@ class Projects extends Component {
     }
 
     let projectsList = null;
-    if (projects) {
+    if (projects && listAsCards) {
       projectsList = projects.map(project => (
         <Grid item md={4} key={project.id}>
           <ProjectCard
@@ -53,6 +56,8 @@ class Projects extends Component {
           />
         </Grid>
       ));
+    } else if (projects && !listAsCards) {
+      projectsList = <ProjectTable projects={projects} />;
     }
     return (
       <Grid
