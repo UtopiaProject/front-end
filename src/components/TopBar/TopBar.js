@@ -49,7 +49,7 @@ class TopBar extends React.Component {
           component={Link}
           to="/signin"
         >
-            SIGN IN
+          SIGN IN
         </Button>
       );
     }

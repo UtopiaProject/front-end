@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 export const filterProjectsByTitle = (title) => {
   return {
     type: actionTypes.FILTER_PROJECTS_TITLE,
-    title,
+    title: title.toLowerCase(),
   };
 };
 

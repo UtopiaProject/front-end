@@ -23,7 +23,7 @@ const mockProjects = [
   {
     id: 1,
     picture: availablePictures[Math.floor(Math.random() * availablePictures.length)],
-    title: 'Project A',
+    title: 'Sistema de irrigação',
     author: 'User X',
     createdAt: '19/05/2005',
     introduction: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis voluptates sapiente quis? Odio nesciunt aspernatur enim illo iure expedita, ipsam temporibus placeat nobis quibusdam ipsum quas',
@@ -60,7 +60,7 @@ const mockProjects = [
   {
     id: 2,
     picture: availablePictures[Math.floor(Math.random() * availablePictures.length)],
-    title: 'Project B',
+    title: 'Turbina eólica',
     author: 'User Y',
     createdAt: '19/05/2005',
     introduction: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis voluptates sapiente quis? Odio nesciunt aspernatur enim illo iure expedita, ipsam temporibus placeat nobis quibusdam ipsum quas',
@@ -97,7 +97,7 @@ const mockProjects = [
   {
     id: 3,
     picture: availablePictures[Math.floor(Math.random() * availablePictures.length)],
-    title: 'Project C',
+    title: 'Asfalto inteligente',
     author: 'User Z',
     createdAt: '19/05/2005',
     introduction: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis voluptates sapiente quis? Odio nesciunt aspernatur enim illo iure expedita, ipsam temporibus placeat nobis quibusdam ipsum quas',
@@ -134,7 +134,7 @@ const mockProjects = [
   {
     id: 4,
     picture: availablePictures[Math.floor(Math.random() * availablePictures.length)],
-    title: 'Project D',
+    title: 'Tratamento p/ leucemia',
     author: 'User X',
     createdAt: '19/05/2005',
     introduction: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis voluptates sapiente quis? Odio nesciunt aspernatur enim illo iure expedita, ipsam temporibus placeat nobis quibusdam ipsum quas',
@@ -171,7 +171,7 @@ const mockProjects = [
   {
     id: 5,
     picture: availablePictures[Math.floor(Math.random() * availablePictures.length)],
-    title: 'Project E',
+    title: 'Higienizador de alimentos',
     author: 'User P',
     createdAt: '19/05/2005',
     introduction: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis voluptates sapiente quis? Odio nesciunt aspernatur enim illo iure expedita, ipsam temporibus placeat nobis quibusdam ipsum quas',
@@ -208,7 +208,7 @@ const mockProjects = [
   {
     id: 6,
     picture: availablePictures[Math.floor(Math.random() * availablePictures.length)],
-    title: 'Project Z',
+    title: 'Plataforma EAD',
     author: 'User Z',
     createdAt: '19/05/2005',
     introduction: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis voluptates sapiente quis? Odio nesciunt aspernatur enim illo iure expedita, ipsam temporibus placeat nobis quibusdam ipsum quas',
@@ -245,7 +245,7 @@ const mockProjects = [
   {
     id: 7,
     picture: availablePictures[Math.floor(Math.random() * availablePictures.length)],
-    title: 'Project X',
+    title: 'Combustível de lixo',
     author: 'User A',
     createdAt: '19/05/2005',
     introduction: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis voluptates sapiente quis? Odio nesciunt aspernatur enim illo iure expedita, ipsam temporibus placeat nobis quibusdam ipsum quas',
@@ -287,7 +287,8 @@ const initialState = {
 };
 
 const filterProjectsByTitle = (state, action) => {
-  let filteredProjects = state.projects.filter(project => project.title.startsWith(action.title));
+  const filterRule = project => project.title.toLowerCase().startsWith(action.title);
+  let filteredProjects = state.projects.filter(filterRule);
   if (filteredProjects.length === 0 || action.title.length === 0) {
     filteredProjects = initialState.projects;
   }

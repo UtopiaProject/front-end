@@ -3,30 +3,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 import Grid from '@material-ui/core/Grid';
-import SearchOutlined from '@material-ui/icons/SearchOutlined';
-import TuneOutlined from '@material-ui/icons/TuneOutlined';
-import AppsOutlined from '@material-ui/icons/AppsOutlined';
-import ViewListOutlined from '@material-ui/icons/ViewListOutlined';
-import { TextField, Typography } from '@material-ui/core';
-import ProjectCard from './ProjectCard/ProjectCard';
 import ProjectTable from './ProjectTable/ProjectTable';
+import ProjectFilter from './ProjectFilter/ProjectFilter';
 import * as actions from '../../store/actions';
+import ProjectCards from './ProjectCards/ProjectCards';
+import ContainerHeader from '../../components/ContainerHeader/ContainerHeader';
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     padding: '2rem',
-    maxWidth: '60%',
     margin: 'auto',
+    [theme.breakpoints.up('md')]: {
+      maxWidth: '60%',
+    },
   },
   listing: {
-    marginTop: '3rem',
+    marginTop: '1rem',
   },
 });
 
 class Projects extends Component {
   state = {
     listAsCards: false,
+    displayFilters: false,
   };
 
   handleToggleListing = () => {
@@ -35,27 +36,24 @@ class Projects extends Component {
     this.setState({ listAsCards: !currentListing });
   }
 
-  render() {
-    const { projects, classes, onFilterProjectsByTitle } = this.props;
-    const { listAsCards } = this.state;
+  handleClickFilters = () => {
+    const { displayFilters } = this.state;
+    const currentDisplay = displayFilters;
+    this.setState({ displayFilters: !currentDisplay });
+  }
 
-    let listAsCardsToggle = <ViewListOutlined onClick={this.handleToggleListing} />;
-    if (listAsCards) {
-      listAsCardsToggle = <AppsOutlined onClick={this.handleToggleListing} />;
-    }
+  render() {
+    const {
+      classes,
+      width,
+      projects,
+      onFilterProjectsByTitle,
+    } = this.props;
+    const { listAsCards, displayFilters } = this.state;
 
     let projectsList = null;
-    if (projects && listAsCards) {
-      projectsList = projects.map(project => (
-        <Grid item md={4} key={project.id}>
-          <ProjectCard
-            picture={project.picture}
-            author={project.author}
-            introduction={project.introduction}
-            title={project.title}
-          />
-        </Grid>
-      ));
+    if (projects && ((width === 'sm' || width === 'xs') || listAsCards)) {
+      projectsList = <ProjectCards projects={projects} />;
     } else if (projects && !listAsCards) {
       projectsList = <ProjectTable projects={projects} />;
     }
@@ -67,28 +65,15 @@ class Projects extends Component {
         justify="center"
         className={classes.root}
       >
-        <Grid item md={1}>
-          <Typography variant="headline">Projetos</Typography>
-        </Grid>
         <Grid item md={12}>
-          <Grid container spacing={16} alignItems="center" justify="center">
-            <Grid item>
-              <TuneOutlined />
-            </Grid>
-            <Grid item>
-              <SearchOutlined />
-            </Grid>
-            <Grid item md={8}>
-              <TextField
-                placeholder="Pesquisar projetos"
-                fullWidth
-                onChange={event => onFilterProjectsByTitle(event.target.value)}
-              />
-            </Grid>
-            <Grid item>
-              {listAsCardsToggle}
-            </Grid>
-          </Grid>
+          <ContainerHeader
+            headline="Projetos"
+            listAsCards={listAsCards}
+            filterClicked={this.handleClickFilters}
+            searchChanged={onFilterProjectsByTitle}
+            listingToggled={this.handleToggleListing}
+            width={width}
+          />
         </Grid>
         <Grid item md={12}>
           <Grid
@@ -101,6 +86,10 @@ class Projects extends Component {
             {projectsList}
           </Grid>
         </Grid>
+        <ProjectFilter
+          open={displayFilters}
+          ModalProps={{ onBackdropClick: this.handleClickFilters }}
+        />
       </Grid>
     );
   }
@@ -108,12 +97,12 @@ class Projects extends Component {
 
 Projects.defaultProps = {
   projects: null,
-  classes: PropTypes.shape({}),
 };
 
 Projects.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
+  width: PropTypes.string.isRequired,
   projects: PropTypes.arrayOf(PropTypes.shape({})),
-  classes: PropTypes.shape({}),
   onFilterProjectsByTitle: PropTypes.func.isRequired,
 };
 
@@ -130,4 +119,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Projects));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withWidth()(withStyles(styles)(Projects)),
+);
