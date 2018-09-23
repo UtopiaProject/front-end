@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import FunctionalLink from '../../helpers/Router/FunctionalLink/FunctionalLink';
 import cssClasses from './TopBar.css';
+import MenuDrawer from '../MenuDrawer/MenuDrawer';
 
 const styles = {
   root: {
@@ -32,14 +33,29 @@ const styles = {
   },
 };
 
-class TopBar extends React.Component {
+class TopBar extends Component {
+  state = {
+    displayMenu: false,
+  };
+
+  handleDisplayMenu = () => {
+    const { displayMenu } = this.state;
+    this.setState({ displayMenu: !displayMenu });
+  }
+
   render() {
     const { classes, user } = this.props;
+    const { displayMenu } = this.state;
 
     let userInfo = null;
-
+    let menu = null;
     if (user) {
       userInfo = <Typography>{user.email}</Typography>;
+      menu = (
+        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <MenuIcon onClick={this.handleDisplayMenu} />
+        </IconButton>
+      );
     } else {
       userInfo = (
         <Button
@@ -58,9 +74,7 @@ class TopBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.topBar}>
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
+            {menu}
             <Typography variant="title" color="inherit" className={`${classes.grow} ${cssClasses.utopiaLogo}`}>
               <FunctionalLink to="/">
                 Utopia
@@ -69,6 +83,7 @@ class TopBar extends React.Component {
             {userInfo}
           </Toolbar>
         </AppBar>
+        <MenuDrawer open={displayMenu} ModalProps={{ onBackdropClick: this.handleDisplayMenu }} />
       </div>
     );
   }

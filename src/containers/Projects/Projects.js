@@ -6,9 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import Grid from '@material-ui/core/Grid';
 import ProjectTable from './ProjectTable/ProjectTable';
+import ProjectCards from './ProjectCards/ProjectCards';
 import ProjectFilter from './ProjectFilter/ProjectFilter';
 import * as actions from '../../store/actions';
-import ProjectCards from './ProjectCards/ProjectCards';
 import ContainerHeader from '../../components/ContainerHeader/ContainerHeader';
 
 const styles = theme => ({
