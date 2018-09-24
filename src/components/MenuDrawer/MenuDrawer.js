@@ -15,7 +15,7 @@ const MenuDrawer = (props) => {
     <Drawer open={open} ModalProps={ModalProps}>
       <List>
         { menuItems.map(item => (
-          <ListItem>
+          <ListItem key={item.title}>
             <Button component={Link} to={item.path}>
               {item.title}
             </Button>

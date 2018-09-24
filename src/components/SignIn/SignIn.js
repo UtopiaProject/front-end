@@ -1,6 +1,4 @@
-/* eslint-disable */
-
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
@@ -44,9 +42,16 @@ const styles = theme => ({
     width: '100%', // Fix IE11 issue.
     marginTop: theme.spacing.unit,
   },
-  submit: {
+  signIn: {
     marginTop: theme.spacing.unit * 3,
     background: 'green',
+  },
+  signUp: {
+    marginTop: theme.spacing.unit * 3,
+    background: 'blue',
+  },
+  error: {
+    color: 'red',
   },
 });
 
@@ -56,18 +61,53 @@ class SignIn extends Component {
     password: '',
   };
 
-  handleChangeEmail = (event) => {    
+  handleChangeEmail = (event) => {
     this.setState({ email: event.target.value });
   };
 
-  handleChangePassword = (event) => {    
+  handleChangePassword = (event) => {
     this.setState({ password: event.target.value });
   };
 
+  validateUserInput = (userInfo) => {
+    if (userInfo.email === '' || userInfo.password === '') {
+      return false;
+    }
+    return true;
+  };
+
+  handleSubmitSignIn = (userInfo, history) => {
+    const { onAuthenticate } = this.props;
+    const valid = this.validateUserInput(userInfo);
+    if (valid) {
+      onAuthenticate(userInfo, history);
+    }
+  };
+
+  handleSubmitSignUp = (userInfo) => {
+    const { onSignUp } = this.props;
+    const valid = this.validateUserInput(userInfo);
+    if (valid) {
+      onSignUp(userInfo);
+    }
+  };
+
   render() {
-    const { classes } = this.props;
+    const { classes, error } = this.props;
+    const { email, password } = this.state;
+
+    let errorMessage = null;
+    if (error) {
+      errorMessage = (
+        <Typography className={classes.error}>
+          Error:
+          {error}
+        </Typography>
+      );
+    }
+
     return (
-      <React.Fragment>
+      <Fragment>
         <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
@@ -75,16 +115,17 @@ class SignIn extends Component {
               <LockIcon />
             </Avatar>
             <Typography variant="headline">Sign in</Typography>
+            {errorMessage}
             <form className={classes.form}>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input 
+                <Input
                   id="email"
                   name="email"
                   autoComplete="email"
                   autoFocus
-                  onChange={(event) => this.handleChangeEmail(event)}
-                  value={this.state.email}
+                  onChange={event => this.handleChangeEmail(event)}
+                  value={email}
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
@@ -94,40 +135,58 @@ class SignIn extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  onChange={(event) => this.handleChangePassword(event)}
-                  value={this.state.password}
+                  onChange={event => this.handleChangePassword(event)}
+                  value={password}
                 />
               </FormControl>
               <Button
                 fullWidth
                 variant="raised"
                 color="primary"
-                className={classes.submit}
-                onClick={() => this.props.onAuthenticate({email: this.state.email, password: this.state.password}, this.props.history)}
+                className={classes.signIn}
+                onClick={() => this.handleSubmitSignIn({ email, password })}
               >
                 Sign in
+              </Button>
+              <Button
+                fullWidth
+                variant="raised"
+                color="secondary"
+                className={classes.signUp}
+                onClick={() => this.handleSubmitSignUp({ email, password })}
+              >
+                Sign up
               </Button>
             </form>
           </Paper>
         </main>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
 
+SignIn.defaultProps = {
+  error: null,
+};
+
 SignIn.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  error: PropTypes.string,
+  onAuthenticate: PropTypes.func.isRequired,
+  onSignUp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
+    error: state.auth.error,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-      onAuthenticate: (userData, history) => dispatch(actions.authenticate(userData, history)),
+    onAuthenticate: userData => dispatch(actions.authenticate(userData)),
+    onSignUp: userData => dispatch(actions.createUser(userData)),
   };
 };
 
