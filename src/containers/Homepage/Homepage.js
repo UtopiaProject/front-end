@@ -10,14 +10,17 @@ import CoreCategories from '../../components/CoreCategories/CoreCategories';
 const styles = () => ({
   root: {
     flexGrow: 1,
+    overflowX: 'hidden',
   },
   homepage: {
-    overflowX: 'hidden',
   },
   sectionHeader: {
     fontSize: '3rem',
     textAlign: 'center',
     color: 'green',
+  },
+  coreSteps: {
+    padding: '2rem',
   },
 });
 
@@ -25,7 +28,7 @@ const Homepage = (props) => {
   const { classes } = props;
 
   return (
-    <div className={classes.homepage}>
+    <div className={classes.root}>
       <Grid container spacing={16}>
         <Grid item xs={12}>
           <VideoBanner />
@@ -34,10 +37,10 @@ const Homepage = (props) => {
       <Grid item xs={12}>
         <CoreValues />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} className={classes.coreSteps}>
         <CoreSteps />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} className={classes.coreSteps}>
         <CoreCategories />
       </Grid>
       <Grid item xs={12}>

@@ -23,7 +23,7 @@ const styles = () => ({
   },
   card: {
     maxWidth: '100%',
-    margin: '1rem',
+    margin: '1rem 0',
   },
 });
 

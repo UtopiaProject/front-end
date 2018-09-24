@@ -9,6 +9,9 @@ import {
 } from '@material-ui/core';
 
 const styles = theme => ({
+  root: {
+    overflowX: 'hidden',
+  },
   paper: {
     marginTop: '1rem',
     marginRight: '2rem',
@@ -16,6 +19,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
     textAlign: 'center',
+    height: '15rem',
   },
   typography: {
     fontSize: '1.5rem',
@@ -36,7 +40,7 @@ const styles = theme => ({
 const CoreValues = (props) => {
   const { classes } = props;
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={24} className={classes.root}>
       <Grid item xs={12}>
         <h2 className={classes.sectionHeader}>Motivação</h2>
       </Grid>
