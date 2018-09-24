@@ -4,5 +4,8 @@ node_js:
 cache:
   directories:
     "node_modules"
+install:
+  - npm i -g firebase-tools
 after_success:
   - npm run coveralls
+  - firebase deploy --token $FIREBASE_TOKEN
