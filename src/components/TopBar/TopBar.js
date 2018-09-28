@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import FunctionalLink from '../../helpers/Router/FunctionalLink/FunctionalLink';
-import cssClasses from './TopBar.css';
 import MenuDrawer from '../MenuDrawer/MenuDrawer';
 
 const styles = {
@@ -30,6 +29,10 @@ const styles = {
   },
   button: {
     background: 'green',
+  },
+  utopiaLogo: {
+    fontFamily: "'Baloo', cursive !important",
+    fontSize: '2rem !important',
   },
 };
 
@@ -75,7 +78,7 @@ class TopBar extends Component {
         <AppBar position="static" className={classes.topBar}>
           <Toolbar>
             {menu}
-            <Typography variant="title" color="inherit" className={`${classes.grow} ${cssClasses.utopiaLogo}`}>
+            <Typography variant="title" color="inherit" className={`${classes.grow} ${classes.utopiaLogo}`}>
               <FunctionalLink to="/">
                 Utopia
               </FunctionalLink>

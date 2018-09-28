@@ -1,6 +1,5 @@
 import React from 'react';
 import 'typeface-roboto';
-import './App.css';
 
 import { Router, Switch, Route } from 'react-router-dom';
 import history from './helpers/Router/History/History';
@@ -12,7 +11,7 @@ import Projects from './containers/Projects/Projects';
 
 const App = () => (
   <Router history={history}>
-    <div className="App">
+    <div>
       <TopBar />
       <Switch>
         <Route path="/" exact component={Homepage} />
