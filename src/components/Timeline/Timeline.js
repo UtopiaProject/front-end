@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  CardHeader, CardContent,
-  Card, Grid, withStyles,
+  withWidth, CardContent,
+  Card, Grid, withStyles, Typography,
 } from '@material-ui/core';
+
+const Aux = props => props.children;
 
 const styles = theme => ({
   container: {
@@ -51,9 +53,9 @@ const styles = theme => ({
     right: '100%',
   },
   cardHeader: {
-    fontSize: '1.2rem',
+    fontSize: '1.2rem !important',
     [theme.breakpoints.up('md')]: {
-      fontSize: '2rem',
+      fontSize: '2rem !important',
     },
   },
   cardInfo: {
@@ -85,14 +87,34 @@ class Timeline extends Component {
   }
 
   getTimelineElement = (event, isLeft, id) => {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
+
+    const mobileHeader = (
+      <Aux>
+        <Typography variant="title">
+          {`#${id + 1}`}
+        </Typography>
+        <Typography variant="subheading">
+          {event.subheader}
+        </Typography>
+      </Aux>
+    );
+
+    const desktopHeader = (
+      `#${id + 1} ${event.subheader}`
+    );
+
+    const header = width === 'sm' || width === 'xs' ? mobileHeader : desktopHeader;
 
     return (
       <div className={classes.cardContainer}>
         <div className={isLeft ? classes.cardDecoratorLeft : classes.cardDecoratorRight} />
         <Card>
-          <CardHeader className={classes.cardHeader} title={`${id + 1}º passo - ${event.subheader}`} />
           <CardContent className={classes.cardInfo}>
+            <div className={classes.cardHeader}>
+              {header}
+            </div>
+            <br />
             { event.description }
           </CardContent>
         </Card>
@@ -111,7 +133,8 @@ class Timeline extends Component {
 
 Timeline.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  width: PropTypes.shape({}).isRequired,
   events: PropTypes.shape({}).isRequired,
 };
 
-export default withStyles(styles)(Timeline);
+export default withWidth()(withStyles(styles)(Timeline));
