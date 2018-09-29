@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import utopiaBanner from '../../assets/videos/utopia-banner.mp4';
 
 const styles = theme => ({
   videoStyle: {
@@ -34,7 +35,7 @@ const VideoBanner = (props) => {
   const { classes } = props;
   return (
     <div className="VideoBlock">
-      <video className={classes.videoStyle} src="https://firebasestorage.googleapis.com/v0/b/reuwsaat-project-utopia.appspot.com/o/utopia-banner.mp4?alt=media&token=b6d1ee76-3ae7-47e5-b15f-29b56ffacc7d" autoPlay loop muted />
+      <video className={classes.videoStyle} src={utopiaBanner} autoPlay loop muted />
       <div className={classes.coverTextStyle}>
         <h2>UTOPIA</h2>
         <p>soluções humanitárias a longo prazo</p>
