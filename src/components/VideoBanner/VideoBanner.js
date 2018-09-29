@@ -30,7 +30,6 @@ const styles = theme => ({
   },
 });
 
-
 const VideoBanner = (props) => {
   const { classes } = props;
   return (
