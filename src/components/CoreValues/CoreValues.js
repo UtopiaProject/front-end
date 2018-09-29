@@ -19,10 +19,13 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
     textAlign: 'center',
-    height: '15rem',
+    minHeight: '15rem',
   },
   typography: {
-    fontSize: '1.5rem',
+    fontSize: '1rem',
+    [theme.breakpoints.up('md')]: {
+      fontSize: '1.5rem',
+    },
   },
   icon: {
     margin: theme.spacing.unit,
@@ -30,9 +33,12 @@ const styles = theme => ({
     color: 'green',
   },
   sectionHeader: {
-    fontSize: '3rem',
+    fontSize: '2.5rem',
     textAlign: 'center',
     color: 'green',
+    [theme.breakpoints.up('md')]: {
+      fontSize: '3rem',
+    },
   },
 });
 
