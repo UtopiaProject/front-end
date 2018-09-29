@@ -6,38 +6,52 @@ import CommentOutlined from '@material-ui/icons/CommentOutlined';
 import AttachMoneyOutlined from '@material-ui/icons/AttachMoneyOutlined';
 import Chat from '@material-ui/icons/ChatOutlined';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
-import { Timeline } from 'react-material-timeline';
 import { Grid, Avatar } from '@material-ui/core';
+import Timeline from '../Timeline/Timeline';
 
-const styles = {
+const styles = theme => ({
   sectionHeader: {
-    fontSize: '3rem',
+    fontSize: '2.5rem',
     textAlign: 'center',
     color: 'green',
+    [theme.breakpoints.up('md')]: {
+      fontSize: '3rem',
+    },
   },
-};
+  stepText: {
+    fontSize: '1rem !important',
+    [theme.breakpoints.up('md')]: {
+      fontSize: '1.5rem',
+    },
+  },
+});
 
 const CoreSteps = (props) => {
   const { classes } = props;
   const events = [
     {
-      title: 'Especialistas propõem projetos sociais e ambientais',
+      subheader: 'proposta',
+      description: 'Especialistas propõem projetos sociais e ambientais',
       icon: <Avatar><WbIncandescentOutlined /></Avatar>,
     },
     {
-      title: 'Especialistas discutem a viabilidade do projeto',
+      subheader: 'avaliação',
+      description: 'Especialistas discutem a viabilidade do projeto',
       icon: <Avatar><CommentOutlined /></Avatar>,
     },
     {
-      title: 'Aprovado, é feito o crowdfunding da prototipação',
+      subheader: 'prototipação',
+      description: 'Aprovado, é feito o crowdfunding da prototipação',
       icon: <Avatar><AttachMoneyOutlined /></Avatar>,
     },
     {
-      title: 'Resultados do protótipo são rediscutidos',
+      subheader: 'reavaliação',
+      description: 'Resultados do protótipo são rediscutidos',
       icon: <Avatar><Chat /></Avatar>,
     },
     {
-      title: 'Protótipo vira produto e entra em crowdfunding para produção em massa',
+      subheader: 'produção',
+      description: 'Protótipo vira produto e entra em crowdfunding para produção em massa',
       icon: <Avatar><StarBorderOutlined /></Avatar>,
     },
   ];
@@ -46,7 +60,7 @@ const CoreSteps = (props) => {
       <Grid item xs={12}>
         <h2 className={classes.sectionHeader}>Como funciona</h2>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} className={classes.stepText}>
         <Timeline events={events} />
       </Grid>
     </Grid>
