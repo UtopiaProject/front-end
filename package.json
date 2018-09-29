@@ -50,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/UtopiaProject/front-end/issues"
   },
-  "homepage": "https://github.com/UtopiaProject/front-end#readme",
+  "homepage": "https://reuwsaat-project-utopia.firebaseapp.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
