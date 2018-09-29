@@ -18,13 +18,6 @@ const styles = () => ({
     textAlign: 'center',
     color: 'green',
   },
-  media: {
-    objectFit: 'cover',
-  },
-  card: {
-    maxWidth: '100%',
-    margin: '1rem 0',
-  },
 });
 
 const categories = [

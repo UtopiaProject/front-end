@@ -13,13 +13,15 @@ const styles = theme => ({
     overflowX: 'hidden',
   },
   paper: {
-    marginTop: '1rem',
     marginRight: '2rem',
     marginLeft: '2rem',
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
     textAlign: 'center',
-    minHeight: '15rem',
+    [theme.breakpoints.up('md')]: {
+      marginTop: '1rem',
+      minHeight: '15rem',
+    },
   },
   typography: {
     fontSize: '1rem',
@@ -29,8 +31,11 @@ const styles = theme => ({
   },
   icon: {
     margin: theme.spacing.unit,
-    fontSize: 100,
+    fontSize: 75,
     color: 'green',
+    [theme.breakpoints.up('md')]: {
+      fontSize: 100,
+    },
   },
   sectionHeader: {
     fontSize: '2.5rem',
