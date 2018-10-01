@@ -106,7 +106,7 @@ TopBar.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user,
+    user: state.users.user,
   };
 };
 
