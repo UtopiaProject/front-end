@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -84,14 +85,6 @@ class SignIn extends Component {
     }
   };
 
-  handleSubmitSignUp = (userInfo) => {
-    const { onSignUp } = this.props;
-    const valid = this.validateUserInput(userInfo);
-    if (valid) {
-      onSignUp(userInfo);
-    }
-  };
-
   render() {
     const { classes, error } = this.props;
     const { email, password } = this.state;
@@ -153,7 +146,8 @@ class SignIn extends Component {
                 variant="raised"
                 color="secondary"
                 className={classes.signUp}
-                onClick={() => this.handleSubmitSignUp({ email, password })}
+                component={Link}
+                to="/signup"
               >
                 Sign up
               </Button>
@@ -173,7 +167,6 @@ SignIn.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   error: PropTypes.string,
   onAuthenticate: PropTypes.func.isRequired,
-  onSignUp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -186,7 +179,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuthenticate: userData => dispatch(actions.authenticate(userData)),
-    onSignUp: userData => dispatch(actions.createUser(userData)),
   };
 };
 

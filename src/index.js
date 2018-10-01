@@ -14,10 +14,12 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import authenticationReducer from './store/reducers/authentication';
+import usersReducer from './store/reducers/users';
 import projectsReducer from './store/reducers/projects';
 
 const rootReducer = combineReducers({
   auth: authenticationReducer,
+  users: usersReducer,
   projects: projectsReducer,
 });
 

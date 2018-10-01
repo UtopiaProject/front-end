@@ -133,8 +133,8 @@ class Timeline extends Component {
 
 Timeline.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  width: PropTypes.shape({}).isRequired,
-  events: PropTypes.shape({}).isRequired,
+  width: PropTypes.string.isRequired,
+  events: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default withWidth()(withStyles(styles)(Timeline));

@@ -1,2 +1,3 @@
-export { authenticate, createUser } from './authentication';
+export { authenticate } from './authentication';
+export { createUser } from './users';
 export { fetchProjects, filterProjectsByTitle } from './projects';
