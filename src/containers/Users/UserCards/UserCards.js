@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import UserCard from './UserCard/UserCard';
+import emailToGravatar from '../../../helpers/Gravatar/Gravatar';
 
 const UserCards = (props) => {
   const { users } = props;
-  console.log('[UserCards] users', users);
-  
+
   return users.map(user => (
     <Grid item md={4} key={user.email}>
       <UserCard
-        picture={user.picture}
+        picture={emailToGravatar(user.email, 300)}
         name={user.name}
         summary={user.summary}
       />
@@ -23,7 +23,6 @@ UserCards.propTypes = {
     email: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     summary: PropTypes.string.isRequired,
-    picture: PropTypes.string.isRequired,
   })).isRequired,
 };
 

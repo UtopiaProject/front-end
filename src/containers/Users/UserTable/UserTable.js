@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
+import emailToGravatar from '../../../helpers/Gravatar/Gravatar';
 
 const styles = {
   root: {
@@ -56,7 +57,11 @@ const UserTable = (props) => {
             <TableRow key={user.email}>
               <TableCell>
                 <div className={classes.projectRow}>
-                  <img src={user.picture} alt={user.name} className={classes.projectPic} />
+                  <img
+                    src={emailToGravatar(user.email)}
+                    alt={user.name}
+                    className={classes.projectPic}
+                  />
                   <div className={classes.projectInfo}>
                     <Typography variant="title">{user.name}</Typography>
                     <Typography variant="body2">{user.summary}</Typography>
