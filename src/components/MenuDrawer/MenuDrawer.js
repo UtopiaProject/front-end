@@ -10,6 +10,7 @@ const MenuDrawer = (props) => {
   const { open, ModalProps } = props;
   const menuItems = [
     { title: 'Projetos', path: '/projects' },
+    { title: 'Usuários', path: '/users' },
   ];
   return (
     <Drawer open={open} ModalProps={ModalProps}>

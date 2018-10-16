@@ -13,6 +13,8 @@ export const doCreateUser = (user) => {
     lattes,
     linkedin,
     stackOverflow,
+    summary,
+    type,
   } = user;
   return authentication.doCreateUserWithEmailAndPassword(email, password)
     .then(() => {
@@ -26,6 +28,8 @@ export const doCreateUser = (user) => {
         lattes,
         linkedin,
         stackOverflow,
+        summary,
+        type,
       });
     })
     .catch((error) => {
@@ -36,20 +40,15 @@ export const doCreateUser = (user) => {
 
 // Read User
 export const doReadUser = (uid) => {
-  return database.ref(`/users/${uid}`).once('value')
-    .then((snapshot) => {
-      return snapshot.val();
-    })
-    .catch((error) => {
-      console.log('[firebase users] user read failed: ', error);
-      return error;
-    });
+  return database.ref(`users/${uid}`).once('value');
 };
 
 // Read Users
-export const doReadUsers = () => {
-  return database.ref('/users').on('value', (snapshot) => {
-    return snapshot.val();
+export const doReadUsers = (dispatch, callback) => {
+  return database.ref('/users/').on('value', (snapshot) => {
+    const data = [];
+    snapshot.forEach((ss) => { data.push(ss.val()); });
+    dispatch(callback(data));
   });
 };
 
@@ -64,6 +63,8 @@ export const doUpdateUser = (user, uid) => {
     lattes,
     linkedin,
     stackOverflow,
+    summary,
+    type,
   } = user;
   return database.ref(`users/${uid}`).set({
     name,
@@ -74,6 +75,8 @@ export const doUpdateUser = (user, uid) => {
     lattes,
     linkedin,
     stackOverflow,
+    summary,
+    type,
   });
 };
 

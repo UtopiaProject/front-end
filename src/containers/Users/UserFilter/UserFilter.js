@@ -28,15 +28,8 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-function ProjectFilter(props) {
+function UserFilter(props) {
   const { classes, open, ModalProps } = props;
-  const steps = [
-    { id: 1, title: 'Proposta' },
-    { id: 2, title: 'Avaliação' },
-    { id: 3, title: 'Prototipação' },
-    { id: 4, title: 'Reavaliação' },
-    { id: 5, title: 'Produção' },
-  ];
 
   const categories = [
     { id: 1, title: 'Agriculture' },
@@ -62,11 +55,6 @@ function ProjectFilter(props) {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <Typography>Passos</Typography>
-          {steps.map(step => <CheckboxFilter key={step.id} title={step.title} />)}
-        </List>
-        <Divider />
-        <List>
           <Typography>Palavras chave</Typography>
           <TextField variant="outlined" placeholder="Busque por palavras-chave" fullWidth />
         </List>
@@ -81,10 +69,10 @@ function ProjectFilter(props) {
   );
 }
 
-ProjectFilter.propTypes = {
+UserFilter.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   open: PropTypes.bool.isRequired,
   ModalProps: PropTypes.shape({}).isRequired,
 };
 
-export default withStyles(styles)(ProjectFilter);
+export default withStyles(styles)(UserFilter);

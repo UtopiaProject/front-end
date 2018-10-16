@@ -1,10 +1,7 @@
-/* eslint-disable */
-
 import React from 'react';
 import chai, { expect } from 'chai';
 import chaiEnzyme from 'chai-enzyme';
-import { shallow } from 'enzyme';
-import { configure } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import VideoBanner from '../components/VideoBanner/VideoBanner';
 

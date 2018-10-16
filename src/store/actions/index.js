@@ -1,3 +1,15 @@
-export { authenticate } from './authentication';
-export { createUser } from './users';
-export { fetchProjects, filterProjectsByTitle } from './projects';
+export {
+  authenticate,
+} from './authentication';
+
+export {
+  createUser,
+  fetchUser,
+  fetchUsers,
+  filterUsersByName,
+} from './users';
+
+export {
+  fetchProjects,
+  filterProjectsByTitle,
+} from './projects';

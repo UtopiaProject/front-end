@@ -56,6 +56,22 @@ const Input = (props) => {
         />
       );
       break;
+    case ('textarea'):
+      inputElement = (
+        <TextField
+          multiline
+          rowsMax="4"
+          required={validation.required}
+          type={elementType}
+          label={elementConfig.label}
+          value={value}
+          onChange={changed}
+          onBlur={changed}
+          error={error}
+          fullWidth
+        />
+      );
+      break;
     default:
       inputElement = (
         <TextField

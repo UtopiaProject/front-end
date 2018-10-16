@@ -4,7 +4,7 @@ import { auth } from '../firebase/index';
 
 export const authenticateSuccess = (user) => {
   return {
-    type: actionTypes.AUTHENTICATE_SUCCESS,
+    type: actionTypes.CREATE_USER_SUCCESS,
     user,
   };
 };

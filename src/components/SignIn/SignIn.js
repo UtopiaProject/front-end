@@ -171,8 +171,8 @@ SignIn.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user,
-    error: state.auth.error,
+    user: state.users.user,
+    error: state.users.error,
   };
 };
 

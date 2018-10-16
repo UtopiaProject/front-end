@@ -180,6 +180,30 @@ class UserSignUp extends Component {
           xl: false,
         },
       },
+      type: {
+        elementType: 'select',
+        elementConfig: {
+          label: 'Tipo de usuário',
+          options: [
+            { label: 'Contribuinte', value: 'Contribuinte' },
+            { label: 'Especialista', value: 'Especialista' },
+            { label: 'ONG', value: 'ONG' },
+          ],
+        },
+        value: '',
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+        gridSizing: {
+          xs: 12,
+          sm: 6,
+          md: false,
+          lg: false,
+          xl: false,
+        },
+      },
       linkedin: {
         elementType: 'text',
         elementConfig: {
@@ -221,6 +245,24 @@ class UserSignUp extends Component {
         elementConfig: {
           type: 'text',
           label: 'StackOverflow',
+        },
+        value: '',
+        validation: {},
+        valid: true,
+        touched: false,
+        gridSizing: {
+          xs: 12,
+          sm: false,
+          md: false,
+          lg: false,
+          xl: false,
+        },
+      },
+      summary: {
+        elementType: 'textarea',
+        elementConfig: {
+          type: 'text',
+          label: 'Sumário',
         },
         value: '',
         validation: {},
@@ -368,7 +410,7 @@ class UserSignUp extends Component {
             <Avatar className={classes.avatar}>
               <GroupAddOutlined />
             </Avatar>
-            <Typography variant="headline">Sign Up</Typography>
+            <Typography variant="headline">Cadastro</Typography>
             <Grid container spacing={24}>
               <Grid item xs={12}>
                 {errorsList}
