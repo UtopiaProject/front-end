@@ -68,7 +68,7 @@ class TopBar extends Component {
           component={Link}
           to="/signin"
         >
-          SIGN IN
+          ACESSAR
         </Button>
       );
     }
