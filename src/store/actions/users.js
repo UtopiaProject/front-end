@@ -50,9 +50,9 @@ export const fetchUserFailure = (error) => {
   };
 };
 
-export const fetchUser = (userUUID) => {
+export const fetchUser = (userEmail) => {
   return (dispatch) => {
-    users.doReadUser(userUUID)
+    users.doReadUser(userEmail)
       .then((snapshot) => {
         dispatch(fetchUserSuccess(snapshot.val()));
         history.push('/users');

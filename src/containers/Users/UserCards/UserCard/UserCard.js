@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
 
 const styles = {
   media: {
@@ -20,8 +21,13 @@ const styles = {
 
 function UserCard(props) {
   const {
-    classes, picture, name, summary,
+    classes,
+    email,
+    picture,
+    name,
+    summary,
   } = props;
+
   return (
     <Card>
       <CardActionArea>
@@ -40,8 +46,8 @@ function UserCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          View
+        <Button size="small" color="primary" component={Link} to={`/users/${email}`}>
+          VISUALIZAR
         </Button>
       </CardActions>
     </Card>
@@ -54,6 +60,7 @@ UserCard.defaultProps = {
 
 UserCard.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  email: PropTypes.string.isRequired,
   picture: PropTypes.string,
   name: PropTypes.string.isRequired,
   summary: PropTypes.string.isRequired,

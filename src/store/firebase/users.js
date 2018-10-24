@@ -39,8 +39,8 @@ export const doCreateUser = (user) => {
 };
 
 // Read User
-export const doReadUser = (uid) => {
-  return database.ref(`users/${uid}`).once('value');
+export const doReadUser = (email) => {
+  return database.ref('/users/').orderByChild('email').equalTo(email).once('value');
 };
 
 // Read Users

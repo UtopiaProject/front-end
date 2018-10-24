@@ -8,6 +8,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import emailToGravatar from '../../../helpers/Gravatar/Gravatar';
+import * as actions from '../../../store/actions';
 
 const styles = () => ({
 
@@ -15,10 +16,13 @@ const styles = () => ({
 
 class UserProfile extends Component {
   componentDidMount() {
-    // fetch user
+    const { onLoadUser, match: { params: { email } } } = this.props;
+    onLoadUser(email);
   }
 
   render() {
+    const { user } = this.props;
+    if (!user) { return null; }
     const {
       name,
       surname,
@@ -30,8 +34,7 @@ class UserProfile extends Component {
       stackOverflow,
       summary,
       type,
-    } = this.props;
-
+    } = user;
     return (
       <Grid container spacing={24}>
         <Grid item xs={12}>
@@ -74,34 +77,39 @@ class UserProfile extends Component {
 }
 
 UserProfile.defaultProps = {
-  lattes: '',
-  linkedin: '',
-  stackOverflow: '',
-  summary: '',
+  user: null,
 };
 
 UserProfile.propTypes = {
-  name: PropTypes.string.isRequired,
-  surname: PropTypes.string.isRequired,
-  birthdate: PropTypes.string.isRequired,
-  gender: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  lattes: PropTypes.string,
-  linkedin: PropTypes.string,
-  stackOverflow: PropTypes.string,
-  summary: PropTypes.string,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    surname: PropTypes.string.isRequired,
+    birthdate: PropTypes.string.isRequired,
+    gender: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    lattes: PropTypes.string,
+    linkedin: PropTypes.string,
+    stackOverflow: PropTypes.string,
+    summary: PropTypes.string,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      email: PropTypes.string,
+    }),
+  }).isRequired,
+  onLoadUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
   return {
-
+    user: state.users.user,
   };
 };
 
-const mapDispatchToProps = () => {
+const mapDispatchToProps = (dispatch) => {
   return {
-
+    onLoadUser: email => dispatch(actions.fetchUser(email)),
   };
 };
 

@@ -9,6 +9,7 @@ import SignIn from './components/SignIn/SignIn';
 import UserSignUp from './containers/Users/UserSignUp/UserSignUp';
 import Projects from './containers/Projects/Projects';
 import Users from './containers/Users/Users';
+import UserProfile from './containers/Users/UserProfile/UserProfile';
 
 const App = () => (
   <Router history={history}>
@@ -19,6 +20,7 @@ const App = () => (
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={UserSignUp} />
         <Route path="/projects" component={Projects} />
+        <Route path="/users/:email" exact component={UserProfile} />
         <Route path="/users" component={Users} />
       </Switch>
     </div>

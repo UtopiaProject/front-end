@@ -6,13 +6,13 @@ import emailToGravatar from '../../../helpers/Gravatar/Gravatar';
 
 const UserCards = (props) => {
   const { users } = props;
-
   return users.map(user => (
     <Grid item md={4} key={user.email}>
       <UserCard
         picture={emailToGravatar(user.email, 300)}
         name={user.name}
         summary={user.summary}
+        email={user.email}
       />
     </Grid>
   ));
