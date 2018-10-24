@@ -22,6 +22,7 @@ class UserProfile extends Component {
 
   render() {
     const { user } = this.props;
+    
     if (!user) { return null; }
     const {
       name,
@@ -34,7 +35,7 @@ class UserProfile extends Component {
       stackOverflow,
       summary,
       type,
-    } = user;
+    } = Object.values(user)[0];
     return (
       <Grid container spacing={24}>
         <Grid item xs={12}>

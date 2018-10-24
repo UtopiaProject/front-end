@@ -55,7 +55,6 @@ export const fetchUser = (userEmail) => {
     users.doReadUser(userEmail)
       .then((snapshot) => {
         dispatch(fetchUserSuccess(snapshot.val()));
-        history.push('/users');
       })
       .catch((error) => {
         dispatch(fetchUserFailure(error));
