@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import * as actions from './index';
 import history from '../../helpers/Router/History/History';
 import { users } from '../firebase/index';
 
@@ -27,7 +28,7 @@ export const createUser = (user) => {
   return (dispatch) => {
     users.doCreateUser(user)
       .then(() => {
-        dispatch(createUserSuccess(user));
+        dispatch(actions.authenticate(user));
         history.push('/projects');
       })
       .catch((error) => {
@@ -54,7 +55,8 @@ export const fetchUser = (userEmail) => {
   return (dispatch) => {
     users.doReadUser(userEmail)
       .then((snapshot) => {
-        dispatch(fetchUserSuccess(snapshot.val()));
+        const userValue = Object.values(snapshot.val())[0];
+        dispatch(fetchUserSuccess(userValue));
       })
       .catch((error) => {
         dispatch(fetchUserFailure(error));

@@ -107,11 +107,11 @@ class SignIn extends Component {
             <Avatar className={classes.avatar}>
               <LockIcon />
             </Avatar>
-            <Typography variant="headline">Sign in</Typography>
+            <Typography variant="headline">ACESSO</Typography>
             {errorMessage}
             <form className={classes.form}>
               <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email Address</InputLabel>
+                <InputLabel htmlFor="email">Endereço de email</InputLabel>
                 <Input
                   id="email"
                   name="email"
@@ -122,7 +122,7 @@ class SignIn extends Component {
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Password</InputLabel>
+                <InputLabel htmlFor="password">Senha</InputLabel>
                 <Input
                   name="password"
                   type="password"
@@ -139,7 +139,7 @@ class SignIn extends Component {
                 className={classes.signIn}
                 onClick={() => this.handleSubmitSignIn({ email, password })}
               >
-                Sign in
+                ACESSAR
               </Button>
               <Button
                 fullWidth
@@ -149,7 +149,7 @@ class SignIn extends Component {
                 component={Link}
                 to="/signup"
               >
-                Sign up
+                CADASTRAR
               </Button>
             </form>
           </Paper>
@@ -171,8 +171,8 @@ SignIn.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.users.user,
-    error: state.users.error,
+    user: state.auth.user,
+    error: state.auth.error,
   };
 };
 

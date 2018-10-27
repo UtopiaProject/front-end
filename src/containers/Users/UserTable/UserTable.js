@@ -7,8 +7,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import emailToGravatar from '../../../helpers/Gravatar/Gravatar';
 
 const styles = {
@@ -49,7 +50,7 @@ const UserTable = (props) => {
           <TableRow>
             <TableCell className={classes.projectHeader}>Sumário</TableCell>
             <TableCell className={classes.projectHeader}>Email</TableCell>
-            <TableCell className={classes.projectHeader}>Áreas</TableCell>
+            <TableCell className={classes.projectHeader}>{}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -70,17 +71,9 @@ const UserTable = (props) => {
               </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>
-                {user.tags
-                  ? user.tags.map(tag => (
-                    <Chip
-                      key={tag.title}
-                      variant="outlined"
-                      className={classes.projectCategories}
-                      label={tag.title}
-                    />
-                  ))
-                  : null
-                }
+                <Button size="small" color="primary" component={Link} to={`/users/${user.email}`}>
+                  VISUALIZAR
+                </Button>
               </TableCell>
             </TableRow>
           ))}

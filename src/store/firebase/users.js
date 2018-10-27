@@ -46,9 +46,7 @@ export const doReadUser = (email) => {
 // Read Users
 export const doReadUsers = (dispatch, callback) => {
   return database.ref('/users/').on('value', (snapshot) => {
-    const data = [];
-    snapshot.forEach((ss) => { data.push(ss.val()); });
-    dispatch(callback(data));
+    dispatch(callback(Object.values(snapshot.val())));
   });
 };
 

@@ -72,7 +72,7 @@ class Users extends Component {
       >
         <Grid item md={12}>
           <ContainerHeader
-            headline="Users"
+            headline="Usuários"
             listAsCards={listAsCards}
             filterClicked={this.handleClickFilters}
             searchChanged={onFilterUsersByName}

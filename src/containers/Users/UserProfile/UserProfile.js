@@ -11,7 +11,14 @@ import emailToGravatar from '../../../helpers/Gravatar/Gravatar';
 import * as actions from '../../../store/actions';
 
 const styles = () => ({
-
+  card: {
+    margin: '3rem 0',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '1rem',
+    textAlign: 'center',
+  },
 });
 
 class UserProfile extends Component {
@@ -21,8 +28,8 @@ class UserProfile extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    
+    const { classes, user } = this.props;
+
     if (!user) { return null; }
     const {
       name,
@@ -35,41 +42,56 @@ class UserProfile extends Component {
       stackOverflow,
       summary,
       type,
-    } = Object.values(user)[0];
+    } = user;
     return (
-      <Grid container spacing={24}>
-        <Grid item xs={12}>
-          <Paper>
-            <Grid container spacing={24}>
-              <Grid item xs={12} md={6}>
-                <img src={emailToGravatar(email)} alt={name} />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h5">
-                  {`${name} ${surname}`}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {email}
-                </Typography>
-                <Typography variant="body1">
-                  {summary}
-                </Typography>
-                <Typography variant="body1">
-                  {`${type} - ${gender} - ${birthdate}`}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="body1">
-                  {lattes}
-                </Typography>
-                <Typography variant="body1">
-                  {linkedin}
-                </Typography>
-                <Typography variant="body1">
-                  {stackOverflow}
-                </Typography>
-              </Grid>
-            </Grid>
+      <Grid
+        container
+        spacing={40}
+        alignItems="center"
+        justify="center"
+      >
+        <Grid item xs={6}>
+          <Paper className={classes.card}>
+            <img src={emailToGravatar(email)} alt={name} />
+            <Typography variant="title">
+              {`${name} ${surname}`}
+            </Typography>
+            <Typography variant="body1">
+              {`${type} - ${gender} - ${birthdate}`}
+            </Typography>
+            <Typography variant="subheading">
+              {email}
+            </Typography>
+            <Typography variant="body1">
+              {summary}
+            </Typography>
+            {
+              lattes
+                ? (
+                  <Typography variant="body1">
+                    {`Lattes: ${lattes}`}
+                  </Typography>
+                )
+                : null
+            }
+            {
+              linkedin
+                ? (
+                  <Typography variant="body1">
+                    {`Linkedin: ${linkedin}`}
+                  </Typography>
+                )
+                : null
+            }
+            {
+              stackOverflow
+                ? (
+                  <Typography variant="body1">
+                    {`StackOverflow: ${stackOverflow}`}
+                  </Typography>
+                )
+                : null
+            }
           </Paper>
         </Grid>
       </Grid>
@@ -82,6 +104,7 @@ UserProfile.defaultProps = {
 };
 
 UserProfile.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
     surname: PropTypes.string.isRequired,
