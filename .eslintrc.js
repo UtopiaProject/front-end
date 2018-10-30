@@ -11,7 +11,6 @@ module.exports = {
         "arrow-body-style": 0
     },
     "globals": {
-        "document": false,
-        "Audio": false,
+        "localStorage": true,
     }
 };
