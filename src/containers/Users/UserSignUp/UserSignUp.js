@@ -68,27 +68,7 @@ class UserSignUp extends Component {
         touched: false,
         gridSizing: {
           xs: 12,
-          sm: 6,
-          md: false,
-          lg: false,
-          xl: false,
-        },
-      },
-      surname: {
-        elementType: 'text',
-        elementConfig: {
-          type: 'text',
-          label: 'Sobrenome',
-        },
-        value: '',
-        validation: {
-          required: true,
-        },
-        valid: false,
-        touched: false,
-        gridSizing: {
-          xs: 12,
-          sm: 6,
+          sm: false,
           md: false,
           lg: false,
           xl: false,
@@ -263,6 +243,8 @@ class UserSignUp extends Component {
         elementConfig: {
           type: 'text',
           label: 'Sumário',
+          rows: '4',
+          maxRows: '4',
         },
         value: '',
         validation: {},
@@ -410,7 +392,7 @@ class UserSignUp extends Component {
             <Avatar className={classes.avatar}>
               <GroupAddOutlined />
             </Avatar>
-            <Typography variant="headline">Cadastro</Typography>
+            <Typography variant="headline">Cadastrar Usuário</Typography>
             <Grid container spacing={24}>
               <Grid item xs={12}>
                 {errorsList}
