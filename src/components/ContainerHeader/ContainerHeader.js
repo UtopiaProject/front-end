@@ -62,7 +62,7 @@ const ContainerHeader = (props) => {
         {searchIcon}
         <Grid item md={8}>
           <TextField
-            placeholder="Pesquisar projetos"
+            placeholder={`Pesquisar ${headline.toLowerCase()}`}
             fullWidth
             onChange={event => searchChanged(event.target.value)}
           />
