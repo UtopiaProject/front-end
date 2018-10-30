@@ -33,7 +33,6 @@ class UserProfile extends Component {
     if (!user) { return null; }
     const {
       name,
-      surname,
       birthdate,
       gender,
       email,
@@ -54,7 +53,7 @@ class UserProfile extends Component {
           <Paper className={classes.card}>
             <img src={emailToGravatar(email)} alt={name} />
             <Typography variant="title">
-              {`${name} ${surname}`}
+              {name}
             </Typography>
             <Typography variant="body1">
               {`${type} - ${gender} - ${birthdate}`}
@@ -107,7 +106,6 @@ UserProfile.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    surname: PropTypes.string.isRequired,
     birthdate: PropTypes.string.isRequired,
     gender: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
