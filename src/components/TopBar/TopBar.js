@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import FunctionalLink from '../../helpers/Router/FunctionalLink/FunctionalLink';
+import emailToGravatar from '../../helpers/Gravatar/Gravatar';
 import MenuDrawer from '../MenuDrawer/MenuDrawer';
 
 const styles = {
@@ -34,6 +35,14 @@ const styles = {
     fontFamily: "'Baloo', cursive !important",
     fontSize: '2rem !important',
   },
+  userImage: {
+    borderRadius: '50%',
+    marginRight: '0.5rem',
+  },
+  userInfo: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 };
 
 class TopBar extends Component {
@@ -53,7 +62,16 @@ class TopBar extends Component {
     let userInfo = null;
     let menu = null;
     if (user) {
-      userInfo = <Typography>{user.email}</Typography>;
+      userInfo = (
+        <div className={classes.userInfo}>
+          <img
+            src={emailToGravatar(user.email, 25)}
+            alt={user.email}
+            className={classes.userImage}
+          />
+          <Typography>{user.email}</Typography>
+        </div>
+      );
       menu = (
         <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
           <MenuIcon onClick={this.handleDisplayMenu} />
