@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import FunctionalLink from '../../helpers/Router/FunctionalLink/FunctionalLink';
 import emailToGravatar from '../../helpers/Gravatar/Gravatar';
 import MenuDrawer from '../MenuDrawer/MenuDrawer';
+import * as actions from '../../store/actions';
 
 const styles = {
   root: {
@@ -43,12 +44,20 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
   },
+  projectButton: {
+    marginRight: '2rem',
+  },
 };
 
 class TopBar extends Component {
   state = {
     displayMenu: false,
   };
+
+  componentDidMount() {
+    const { onUserLoggedIn } = this.props;
+    onUserLoggedIn();
+  }
 
   handleDisplayMenu = () => {
     const { displayMenu } = this.state;
@@ -64,12 +73,21 @@ class TopBar extends Component {
     if (user) {
       userInfo = (
         <div className={classes.userInfo}>
-          <img
-            src={emailToGravatar(user.email, 25)}
-            alt={user.email}
-            className={classes.userImage}
-          />
-          <Typography>{user.email}</Typography>
+          <Button
+            color="primary"
+            variant="contained"
+            className={classes.projectButton}
+          >
+            CRIAR PROJETO
+          </Button>
+          <div className={classes.userInfo}>
+            <img
+              src={emailToGravatar(user.email, 25)}
+              alt={user.email}
+              className={classes.userImage}
+            />
+            <Typography>{user.email}</Typography>
+          </div>
         </div>
       );
       menu = (
@@ -118,8 +136,9 @@ TopBar.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
+    password: PropTypes.string,
   }),
+  onUserLoggedIn: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -128,4 +147,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(TopBar));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUserLoggedIn: () => dispatch(actions.isLoggedIn()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TopBar));
