@@ -60,7 +60,8 @@ const Input = (props) => {
       inputElement = (
         <TextField
           multiline
-          rowsMax="4"
+          rowsMax={elementConfig.rowsMax}
+          rows={elementConfig.rows}
           required={validation.required}
           type={elementType}
           label={elementConfig.label}
