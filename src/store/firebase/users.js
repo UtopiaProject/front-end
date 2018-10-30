@@ -5,7 +5,6 @@ import * as authentication from './auth';
 export const doCreateUser = (user) => {
   const {
     name,
-    surname,
     birthdate,
     gender,
     email,
@@ -21,7 +20,6 @@ export const doCreateUser = (user) => {
       const uid = auth.currentUser.uid;
       return database.ref(`users/${uid}`).set({
         name,
-        surname,
         birthdate,
         gender,
         email,
@@ -54,7 +52,6 @@ export const doReadUsers = (dispatch, callback) => {
 export const doUpdateUser = (user, uid) => {
   const {
     name,
-    surname,
     birthdate,
     gender,
     email,
@@ -66,7 +63,6 @@ export const doUpdateUser = (user, uid) => {
   } = user;
   return database.ref(`users/${uid}`).set({
     name,
-    surname,
     birthdate,
     gender,
     email,
