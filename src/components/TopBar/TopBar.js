@@ -70,12 +70,15 @@ class TopBar extends Component {
 
     let userInfo = null;
     let menu = null;
-    if (user) {
+
+    if (user && user.email) {
       userInfo = (
         <div className={classes.userInfo}>
           <Button
             color="primary"
             variant="contained"
+            component={Link}
+            to="/new_project"
             className={classes.projectButton}
           >
             CRIAR PROJETO
