@@ -1,5 +1,6 @@
 export {
   authenticate,
+  isLoggedIn,
 } from './authentication';
 
 export {

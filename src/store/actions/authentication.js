@@ -16,17 +16,38 @@ export const authenticateFailure = (error) => {
   };
 };
 
+const saveToLocalStorage = (user) => {
+  return (dispatch) => {
+    localStorage.setItem('user', user.email);
+    return dispatch(authenticateSuccess(user));
+  };
+};
+
+const removeFromLocalStorage = (error) => {
+  return (dispatch) => {
+    localStorage.removeItem('user');
+    return dispatch(authenticateFailure(error));
+  };
+};
+
+export const isLoggedIn = () => {
+  return (dispatch) => {
+    const loggedUser = { email: localStorage.getItem('user') };
+    if (loggedUser) return dispatch(authenticateSuccess(loggedUser));
+    return dispatch(removeFromLocalStorage('LOGGED OUT'));
+  };
+};
+
 export const authenticate = (user) => {
   const { email, password } = user;
   return (dispatch) => {
     auth.doSignInWithEmailAndPassword(email, password)
       .then(() => {
-        dispatch(authenticateSuccess(user));
+        dispatch(saveToLocalStorage(user));
         history.push('/projects');
       })
-      .catch(() => {
-        const message = ' user not found.';
-        dispatch(authenticateFailure(message));
+      .catch((error) => {
+        dispatch(removeFromLocalStorage(error));
       });
   };
 };
