@@ -90,8 +90,6 @@ ProjectProfile.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('[ProjectProfile:93 mapStateToProps()] state.projects.project', state.projects.project);
-  
   return {
     project: state.projects.project,
   };
