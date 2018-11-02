@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
 
 const styles = {
   root: {
@@ -48,6 +50,7 @@ const ProjectTable = (props) => {
             <TableCell className={classes.projectHeader}>Sumário</TableCell>
             <TableCell className={classes.projectHeader}>Autor</TableCell>
             <TableCell className={classes.projectHeader}>Categoria</TableCell>
+            <TableCell className={classes.projectHeader}>{}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -64,14 +67,29 @@ const ProjectTable = (props) => {
               </TableCell>
               <TableCell>{project.author}</TableCell>
               <TableCell>
-                {project.tags.map(tag => (
-                  <Chip
-                    key={tag.title}
-                    variant="outlined"
-                    className={classes.projectCategories}
-                    label={tag.title}
-                  />
-                ))}
+                {
+                  project.tags
+                    ? project.tags.map(tag => (
+                      <Chip
+                        key={tag.title}
+                        variant="outlined"
+                        className={classes.projectCategories}
+                        label={tag.title}
+                      />
+                    ))
+                    : null
+                }
+              </TableCell>
+              <TableCell>
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to={`/projects/${project.id}`}
+                >
+                  SAIBA MAIS
+                </Button>
               </TableCell>
             </TableRow>
           ))}

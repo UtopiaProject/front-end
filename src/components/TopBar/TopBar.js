@@ -75,7 +75,7 @@ class TopBar extends Component {
       userInfo = (
         <div className={classes.userInfo}>
           <Button
-            color="primary"
+            color="secondary"
             variant="contained"
             component={Link}
             to="/new_project"

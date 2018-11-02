@@ -46,7 +46,13 @@ function UserCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" component={Link} to={`/users/${email}`}>
+        <Button
+          size="small"
+          color="primary"
+          variant="contained"
+          component={Link}
+          to={`/users/${email}`}
+        >
           VISUALIZAR
         </Button>
       </CardActions>

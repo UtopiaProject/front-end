@@ -3,7 +3,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import BeenhereOutlined from '@material-ui/icons/BeenhereOutlined';
 import {
-  Paper, Avatar, Typography, Button, withStyles, Grid, List, ListItem, ListItemText,
+  Paper,
+  Avatar,
+  Typography,
+  Button,
+  withStyles,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core';
 import { updateObject, checkValidity } from '../../../helpers/Validation/Validation';
 import * as actions from '../../../store/actions';
@@ -53,8 +61,8 @@ const styles = theme => ({
 
 class ProjectRegistration extends Component {
   state = {
-    userForm: {
-      name: {
+    projectForm: {
+      title: {
         elementType: 'text',
         elementConfig: {
           type: 'text',
@@ -124,59 +132,44 @@ class ProjectRegistration extends Component {
   };
 
   inputChangedHandler = (event, inputIdentifier) => {
-    const { userForm } = this.state;
-    const updatedFormElement = updateObject(userForm[inputIdentifier], {
+    const { projectForm } = this.state;
+    const updatedFormElement = updateObject(projectForm[inputIdentifier], {
       value: event.target.value,
-      valid: checkValidity(event.target.value, userForm[inputIdentifier].validation),
+      valid: checkValidity(event.target.value, projectForm[inputIdentifier].validation),
       touched: true,
     });
 
-    const updatedUserForm = updateObject(userForm, {
+    const updatedProjectForm = updateObject(projectForm, {
       [inputIdentifier]: updatedFormElement,
     });
 
     let formIsValid = true;
-    Object.keys(updatedUserForm).forEach((input) => {
-      formIsValid = updatedUserForm[input].valid && formIsValid;
+    Object.keys(updatedProjectForm).forEach((input) => {
+      formIsValid = updatedProjectForm[input].valid && formIsValid;
     });
 
-    this.setState({ userForm: updatedUserForm, formIsValid });
+    this.setState({ projectForm: updatedProjectForm, formIsValid });
   };
 
-  validUser = (userInfo) => {
-    const messages = [];
-    if (userInfo.email !== userInfo.emailConfirmation) {
-      messages.push('emails não coicidem');
-    }
-    if (userInfo.password !== userInfo.passwordConfirmation) {
-      messages.push('senhas não coicidem');
-    }
-    if (messages.length) {
-      this.setState({ errors: messages });
-      return false;
-    }
-    return true;
-  }
-
-  userCreationHandler = () => {
-    const { userForm, formIsValid } = this.state;
-    const { onRegisterPorject } = this.props;
-    const userInfo = {};
-    Object.keys(userForm).forEach((key) => {
-      userInfo[key] = userForm[key].value;
+  projectCreationHandler = () => {
+    const { projectForm, formIsValid } = this.state;
+    const { onRegisterPorject, user } = this.props;
+    const projectInfo = {};
+    Object.keys(projectForm).forEach((key) => {
+      projectInfo[key] = projectForm[key].value;
     });
-    const validUser = this.validUser(userInfo);
-    if (formIsValid && validUser) {
-      onRegisterPorject(userInfo);
-    }
+    projectInfo.author = user.email;
+    projectInfo.createdAt = new Date();
+    projectInfo.picture = '';
+    if (formIsValid) onRegisterPorject(projectInfo);
   };
 
   render() {
     const { classes } = this.props;
-    const { userForm, errors, formIsValid } = this.state;
-    const formElements = Object.keys(userForm).map(e => ({
+    const { projectForm, errors, formIsValid } = this.state;
+    const formElements = Object.keys(projectForm).map(e => ({
       id: e,
-      config: userForm[e],
+      config: projectForm[e],
     }));
 
     const form = formElements.map(e => (
@@ -223,7 +216,7 @@ class ProjectRegistration extends Component {
                   disabled={!formIsValid}
                   variant="contained"
                   color="primary"
-                  onClick={() => this.userCreationHandler()}
+                  onClick={() => this.projectCreationHandler()}
                   fullWidth
                 >
                   CADASTRAR
@@ -238,19 +231,20 @@ class ProjectRegistration extends Component {
 }
 
 ProjectRegistration.propTypes = {
+  user: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,
   onRegisterPorject: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    serverError: state.projects.error,
+    user: state.auth.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRegisterPorject: projectData => dispatch(actions.createUser(projectData)),
+    onRegisterPorject: projectData => dispatch(actions.createProject(projectData)),
   };
 };
 

@@ -9,6 +9,7 @@ const ProjectCards = (props) => {
   return projects.map(project => (
     <Grid item md={4} key={project.id}>
       <ProjectCard
+        id={project.id}
         picture={project.picture}
         author={project.author}
         introduction={project.introduction}

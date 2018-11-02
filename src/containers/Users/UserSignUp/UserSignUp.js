@@ -328,10 +328,10 @@ class UserSignUp extends Component {
   validUser = (userInfo) => {
     const messages = [];
     if (userInfo.email !== userInfo.emailConfirmation) {
-      messages.push('emails não coicidem');
+      messages.push('emails não coincidem');
     }
     if (userInfo.password !== userInfo.passwordConfirmation) {
-      messages.push('senhas não coicidem');
+      messages.push('senhas não coincidem');
     }
     if (messages.length) {
       this.setState({ errors: messages });

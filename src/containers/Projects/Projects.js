@@ -30,6 +30,11 @@ class Projects extends Component {
     displayFilters: false,
   };
 
+  componentDidMount() {
+    const { onPageLoad } = this.props;
+    onPageLoad();
+  }
+
   handleToggleListing = () => {
     const { listAsCards } = this.state;
     const currentListing = listAsCards;
@@ -104,6 +109,7 @@ Projects.propTypes = {
   width: PropTypes.string.isRequired,
   projects: PropTypes.arrayOf(PropTypes.shape({})),
   onFilterProjectsByTitle: PropTypes.func.isRequired,
+  onPageLoad: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

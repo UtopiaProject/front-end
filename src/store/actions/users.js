@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import * as actions from './index';
 import history from '../../helpers/Router/History/History';
-import { users } from '../firebase/index';
+import { users } from '../firebase';
 
 export const filterUsersByName = (name) => {
   return {

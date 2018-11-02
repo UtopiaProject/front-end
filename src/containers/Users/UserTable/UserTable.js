@@ -71,7 +71,12 @@ const UserTable = (props) => {
               </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>
-                <Button size="small" color="primary" component={Link} to={`/users/${user.email}`}>
+                <Button
+                  size="small"
+                  color="primary"
+                  component={Link}
+                  to={`/users/${user.email}`}
+                >
                   VISUALIZAR
                 </Button>
               </TableCell>

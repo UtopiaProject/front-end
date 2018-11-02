@@ -282,7 +282,8 @@ const mockProjects = [
 ];
 
 const initialState = {
-  projects: mockProjects,
+  project: null,
+  projects: null,
   error: null,
 };
 
@@ -312,11 +313,43 @@ const fetchProjectsFailure = (state, action) => {
   };
 };
 
+const fetchProjectSuccess = (state, action) => {
+  return {
+    ...state,
+    project: action.project,
+  };
+};
+
+const fetchProjectFailure = (state, action) => {
+  return {
+    ...state,
+    error: action.error,
+  };
+};
+
+const createProjectSuccess = (state, action) => {
+  return {
+    ...state,
+    project: action.project,
+  };
+};
+
+const createProjectFailure = (state, action) => {
+  return {
+    ...state,
+    error: action.error,
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FILTER_PROJECTS_TITLE: return filterProjectsByTitle(state, action);
     case actionTypes.FETCH_PROJECTS_SUCCESS: return fetchProjectsSuccess(state, action);
     case actionTypes.FETCH_PROJECTS_FAILURE: return fetchProjectsFailure(state, action);
+    case actionTypes.FETCH_PROJECT_SUCCESS: return fetchProjectSuccess(state, action);
+    case actionTypes.FETCH_PROJECT_FAILURE: return fetchProjectFailure(state, action);
+    case actionTypes.CREATE_PROJECT_SUCCESS: return createProjectSuccess(state, action);
+    case actionTypes.CREATE_PROJECT_FAILURE: return createProjectFailure(state, action);
     default: return state;
   }
 };

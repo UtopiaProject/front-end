@@ -11,6 +11,8 @@ export {
 } from './users';
 
 export {
+  createProject,
+  fetchProject,
   fetchProjects,
   filterProjectsByTitle,
 } from './projects';
