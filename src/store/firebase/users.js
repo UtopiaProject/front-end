@@ -31,19 +31,18 @@ export const doCreateUser = (user) => {
       });
     })
     .catch((error) => {
-      console.log('[firebase users] user creation failed: ', error);
       return error;
     });
 };
 
 // Read User
 export const doReadUser = (email) => {
-  return database.ref('/users/').orderByChild('email').equalTo(email).once('value');
+  return database.ref('users/').orderByChild('email').equalTo(email).once('value');
 };
 
 // Read Users
 export const doReadUsers = (dispatch, callback) => {
-  return database.ref('/users/').on('value', (snapshot) => {
+  return database.ref('users/').on('value', (snapshot) => {
     dispatch(callback(Object.values(snapshot.val())));
   });
 };
@@ -61,7 +60,7 @@ export const doUpdateUser = (user, uid) => {
     summary,
     type,
   } = user;
-  return database.ref(`users/${uid}`).set({
+  return database.ref(`users/${uid}`).update({
     name,
     birthdate,
     gender,

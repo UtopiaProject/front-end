@@ -10,14 +10,7 @@ export const filterUsersByName = (name) => {
   };
 };
 
-export const createUserSuccess = (user) => {
-  return {
-    type: actionTypes.CREATE_USER_SUCCESS,
-    user,
-  };
-};
-
-export const createUserFailure = (error) => {
+const createUserFailure = (error) => {
   return {
     type: actionTypes.CREATE_USER_FAILURE,
     error,
@@ -37,14 +30,14 @@ export const createUser = (user) => {
   };
 };
 
-export const fetchUserSuccess = (user) => {
+const fetchUserSuccess = (user) => {
   return {
     type: actionTypes.FETCH_USER_SUCCESS,
     user,
   };
 };
 
-export const fetchUserFailure = (error) => {
+const fetchUserFailure = (error) => {
   return {
     type: actionTypes.FETCH_USER_FAILURE,
     error,
@@ -64,17 +57,10 @@ export const fetchUser = (userEmail) => {
   };
 };
 
-export const fetchUsersSuccess = (userList) => {
+const fetchUsersSuccess = (userList) => {
   return {
     type: actionTypes.FETCH_USERS_SUCCESS,
     users: userList,
-  };
-};
-
-export const fetchUsersFailure = (error) => {
-  return {
-    type: actionTypes.FETCH_USERS_FAILURE,
-    error,
   };
 };
 

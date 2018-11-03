@@ -15,4 +15,6 @@ export {
   fetchProject,
   fetchProjects,
   filterProjectsByTitle,
+  deleteProject,
+  updateProject,
 } from './projects';

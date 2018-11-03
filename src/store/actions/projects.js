@@ -1,17 +1,11 @@
 import * as actionTypes from './actionTypes';
+import history from '../../helpers/Router/History/History';
 import { projects } from '../firebase';
 
 export const filterProjectsByTitle = (title) => {
   return {
     type: actionTypes.FILTER_PROJECTS_TITLE,
     title: title.toLowerCase(),
-  };
-};
-
-const createProjectSuccess = (project) => {
-  return {
-    type: actionTypes.CREATE_PROJECT_SUCCESS,
-    project,
   };
 };
 
@@ -25,8 +19,8 @@ const createProjectFailure = (error) => {
 export const createProject = (project) => {
   return (dispatch) => {
     projects.doCreateProject(project)
-      .then((snapshot) => {
-        dispatch(createProjectSuccess(snapshot.val()));
+      .then(() => {
+        history.push('/projects');
       })
       .catch((error) => {
         dispatch(createProjectFailure(error));
@@ -52,6 +46,8 @@ export const fetchProject = (id) => {
   return (dispatch) => {
     projects.doReadProject(id)
       .then((snapshot) => {
+        console.log('[actions project fetchProject():57] snapshot', snapshot);
+        
         const projectValue = Object.values(snapshot.val())[0];
         dispatch(fetchProjectSuccess(projectValue));
       })
@@ -71,5 +67,50 @@ const fetchProjectsSuccess = (projectList) => {
 export const fetchProjects = () => {
   return (dispatch) => {
     projects.doReadProjects(dispatch, fetchProjectsSuccess);
+  };
+};
+
+const updateProjectFailure = (error) => {
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAILURE,
+    error,
+  };
+};
+
+export const updateProject = (project) => {
+  return (dispatch) => {
+    projects.doUpdateProject(project)
+      .then(() => {
+        history.push(`/projects/${project.id}`);
+      })
+      .catch((error) => {
+        dispatch(updateProjectFailure(error));
+      });
+  };
+};
+
+const deleteProjectSuccess = () => {
+  return {
+    type: actionTypes.DELETE_PROJECT_SUCCESS,
+  };
+};
+
+const deleteProjectFailure = (error) => {
+  return {
+    type: actionTypes.DELETE_PROJECT_FAILURE,
+    error,
+  };
+};
+
+export const deleteProject = (id) => {
+  return (dispatch) => {
+    projects.doDeleteProject(id)
+      .then(() => {
+        dispatch(deleteProjectSuccess());
+        history.push('/projects');
+      })
+      .catch((error) => {
+        dispatch(deleteProjectFailure(error));
+      });
   };
 };

@@ -10,8 +10,11 @@ export const doCreateProject = (project) => {
     description,
     createdAt,
   } = project;
-  return database.ref('/projects').push().set({
-    id: database.ref('/projects').push().getKey(),
+  // Get new ID
+  const id = database.ref('/projects').push().key;
+  // Save to database
+  return database.ref(`/projects/${id}`).update({
+    id,
     author,
     title,
     picture,
@@ -34,15 +37,16 @@ export const doReadProjects = (dispatch, callback) => {
 };
 
 // Update Project
-export const doUpdateProject = (project, id) => {
+export const doUpdateProject = (project) => {
   const {
+    id,
     author,
     title,
     picture,
     introduction,
     description,
   } = project;
-  return database.ref(`projects/${id}`).set({
+  return database.ref(`projects/${id}`).update({
     id,
     author,
     title,
@@ -54,5 +58,5 @@ export const doUpdateProject = (project, id) => {
 
 // Delete Project
 export const doDeleteProject = (id) => {
-  return database.ref(`/projects/${id}`).remove();
+  return database.ref(`projects/${id}`).remove();
 };
