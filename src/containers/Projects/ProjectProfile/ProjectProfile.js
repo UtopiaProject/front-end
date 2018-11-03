@@ -11,7 +11,7 @@ import {
 import { Link } from 'react-router-dom';
 import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
 import * as actions from '../../../store/actions';
-import transport from '../../../assets/images/transport.jpg';
+import defaultProjectPicture from '../../../assets/images/defaultProject.png';
 
 
 const styles = () => ({
@@ -67,14 +67,14 @@ class ProjectProfile extends Component {
             <Grid container spacing={32}>
               <Grid item xs={12} sm={4} className={classes.cardHeader}>
                 <img
-                  src={picture || transport}
+                  src={picture || defaultProjectPicture}
                   alt={title}
                   className={classes.cardImage}
                 />
               </Grid>
               <Grid item xs={12} sm={8}>
                 <Grid container>
-                  <Grid item xs={12} className={classes.cardHeader}>
+                  <Grid item xs={12} className={classes.cardHeader} alignItems="center">
                     <Typography variant="title">
                       {title}
                     </Typography>
