@@ -59,14 +59,14 @@ const styles = theme => ({
   },
 });
 
-class ProjectRegistration extends Component {
+class ProjectForm extends Component {
   state = {
     projectForm: {
       title: {
         elementType: 'text',
         elementConfig: {
           type: 'text',
-          label: 'Nome do projeto',
+          label: 'Título do projeto',
         },
         value: '',
         validation: {
@@ -131,6 +131,15 @@ class ProjectRegistration extends Component {
     errors: [],
   };
 
+  componentDidMount() {
+    const {
+      match: { params: { id } },
+      onLoadExistingProject,
+    } = this.props;
+
+    if (id) onLoadExistingProject(id);
+  }
+
   inputChangedHandler = (event, inputIdentifier) => {
     const { projectForm } = this.state;
     const updatedFormElement = updateObject(projectForm[inputIdentifier], {
@@ -151,26 +160,47 @@ class ProjectRegistration extends Component {
     this.setState({ projectForm: updatedProjectForm, formIsValid });
   };
 
-  projectCreationHandler = () => {
+  handleSaveProject = () => {
     const { projectForm, formIsValid } = this.state;
-    const { onRegisterPorject, user } = this.props;
+    const {
+      user,
+      project,
+      onCreateProject,
+      onUpdateProject,
+    } = this.props;
+
     const projectInfo = {};
     Object.keys(projectForm).forEach((key) => {
       projectInfo[key] = projectForm[key].value;
     });
     projectInfo.author = user.email;
-    projectInfo.createdAt = new Date();
+    projectInfo.createdAt = new Date().toString();
     projectInfo.picture = '';
-    if (formIsValid) onRegisterPorject(projectInfo);
+
+    // If there's a loaded project, update it
+    if (project && formIsValid) {
+      projectInfo.id = project.id;
+      onUpdateProject(projectInfo);
+      return;
+    }
+    if (formIsValid) onCreateProject(projectInfo);
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, project, serverError } = this.props;
     const { projectForm, errors, formIsValid } = this.state;
-    const formElements = Object.keys(projectForm).map(e => ({
-      id: e,
-      config: projectForm[e],
-    }));
+
+    const formElements = Object.keys(projectForm).map((e) => {
+      const formElementIsEmpty = projectForm[e].value.length === 0;
+      if (project && formElementIsEmpty) {
+        projectForm[e].value = project[e];
+        projectForm[e].valid = true;
+      }
+      return {
+        id: e,
+        config: projectForm[e],
+      };
+    });
 
     const form = formElements.map(e => (
       <Input
@@ -196,6 +226,23 @@ class ProjectRegistration extends Component {
         </List>
       );
     }
+    let serverErrorFound;
+    if (serverError) {
+      serverErrorFound = (
+        <List>
+          <ListItem>
+            <ListItemText>
+              <Typography align="center">
+                {serverError}
+              </Typography>
+            </ListItemText>
+          </ListItem>
+        </List>
+      );
+    }
+
+    const formTitle = project ? 'Editar Projeto' : 'Cadastrar Projeto';
+    const formButton = project ? 'ATUALIZAR' : 'CADASTRAR';
     return (
       <Fragment>
         <main className={classes.layout}>
@@ -203,10 +250,13 @@ class ProjectRegistration extends Component {
             <Avatar className={classes.avatar}>
               <BeenhereOutlined />
             </Avatar>
-            <Typography variant="headline">Cadastrar Projeto</Typography>
+            <Typography variant="headline">
+              {formTitle}
+            </Typography>
             <Grid container spacing={24}>
               <Grid item xs={12}>
                 {errorsList}
+                {serverErrorFound}
               </Grid>
             </Grid>
             <Grid container spacing={24}>
@@ -216,10 +266,10 @@ class ProjectRegistration extends Component {
                   disabled={!formIsValid}
                   variant="contained"
                   color="primary"
-                  onClick={() => this.projectCreationHandler()}
+                  onClick={() => this.handleSaveProject()}
                   fullWidth
                 >
-                  CADASTRAR
+                  {formButton}
                 </Button>
               </Grid>
             </Grid>
@@ -230,25 +280,41 @@ class ProjectRegistration extends Component {
   }
 }
 
-ProjectRegistration.propTypes = {
-  user: PropTypes.shape({}).isRequired,
+ProjectForm.defaultProps = {
+  user: null,
+  project: null,
+  serverError: null,
+  match: null,
+};
+
+ProjectForm.propTypes = {
+  user: PropTypes.shape({}),
+  project: PropTypes.shape({}),
+  serverError: PropTypes.shape({}),
+  match: PropTypes.shape({}),
   classes: PropTypes.shape({}).isRequired,
-  onRegisterPorject: PropTypes.func.isRequired,
+  onUpdateProject: PropTypes.func.isRequired,
+  onCreateProject: PropTypes.func.isRequired,
+  onLoadExistingProject: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
+    project: state.projects.project,
+    serverError: state.projects.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRegisterPorject: projectData => dispatch(actions.createProject(projectData)),
+    onUpdateProject: projectData => dispatch(actions.updateProject(projectData)),
+    onCreateProject: projectData => dispatch(actions.createProject(projectData)),
+    onLoadExistingProject: id => dispatch(actions.fetchProject(id)),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(styles)(ProjectRegistration));
+)(withStyles(styles)(ProjectForm));

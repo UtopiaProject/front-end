@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
+import trim from '../../../helpers/Strings/Trim';
 
 const styles = {
   root: {
@@ -58,10 +59,14 @@ const ProjectTable = (props) => {
             <TableRow key={project.id}>
               <TableCell>
                 <div className={classes.projectRow}>
-                  <img src={project.picture} alt={project.title} className={classes.projectPic} />
+                  <img
+                    src={project.picture}
+                    alt={trim(project.title, 10)}
+                    className={classes.projectPic}
+                  />
                   <div className={classes.projectInfo}>
-                    <Typography variant="title">{project.title}</Typography>
-                    <Typography variant="body2">{project.introduction}</Typography>
+                    <Typography variant="title">{trim(project.title, 20)}</Typography>
+                    <Typography variant="body2">{trim(project.introduction, 50)}</Typography>
                   </div>
                 </div>
               </TableCell>
