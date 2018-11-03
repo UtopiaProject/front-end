@@ -9,7 +9,7 @@ import SignIn from './components/SignIn/SignIn';
 import UserSignUp from './containers/Users/UserSignUp/UserSignUp';
 import Projects from './containers/Projects/Projects';
 import ProjectProfile from './containers/Projects/ProjectProfile/ProjectProfile';
-import ProjectRegistration from './containers/Projects/ProjectRegistration/ProjectRegistration';
+import ProjectForm from './containers/Projects/ProjectForm/ProjectForm';
 import Users from './containers/Users/Users';
 import UserProfile from './containers/Users/UserProfile/UserProfile';
 
@@ -22,8 +22,9 @@ const App = () => (
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={UserSignUp} />
         <Route path="/projects" exact component={Projects} />
+        <Route path="/projects/:id/edit" component={ProjectForm} />
+        <Route path="/projects/new" exact component={ProjectForm} />
         <Route path="/projects/:id" component={ProjectProfile} />
-        <Route path="/new_project" component={ProjectRegistration} />
         <Route path="/users" exact component={Users} />
         <Route path="/users/:email" component={UserProfile} />
       </Switch>
