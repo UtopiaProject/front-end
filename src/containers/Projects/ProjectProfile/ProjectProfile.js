@@ -24,9 +24,9 @@ const styles = () => ({
     justifyContent: 'space-between',
   },
   cardImage: {
-    height: '15rem',
-    witdth: '15rem',
     borderRadius: '3px',
+    height: '100%',
+    width: '100%',
   },
 });
 

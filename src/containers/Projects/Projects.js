@@ -10,6 +10,7 @@ import ProjectCards from './ProjectCards/ProjectCards';
 import ProjectFilter from './ProjectFilter/ProjectFilter';
 import * as actions from '../../store/actions';
 import ContainerHeader from '../../components/ContainerHeader/ContainerHeader';
+import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -62,6 +63,8 @@ class Projects extends Component {
     } else if (projects && !listAsCards) {
       projectsList = <ProjectTable projects={projects} />;
     }
+
+    const notFound = <Typography>Nenhum projeto cadastrado</Typography>;
     return (
       <Grid
         container
@@ -88,7 +91,7 @@ class Projects extends Component {
             alignItems="center"
             className={classes.listing}
           >
-            {projectsList}
+            {projectsList || notFound}
           </Grid>
         </Grid>
         <ProjectFilter

@@ -32,7 +32,7 @@ export const doReadProject = (id) => {
 // Read Projects
 export const doReadProjects = (dispatch, callback) => {
   return database.ref('/projects').on('value', (snapshot) => {
-    dispatch(callback(Object.values(snapshot.val())));
+    dispatch(callback(snapshot));
   });
 };
 

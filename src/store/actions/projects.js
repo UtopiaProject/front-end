@@ -46,8 +46,6 @@ export const fetchProject = (id) => {
   return (dispatch) => {
     projects.doReadProject(id)
       .then((snapshot) => {
-        console.log('[actions project fetchProject():57] snapshot', snapshot);
-        
         const projectValue = Object.values(snapshot.val())[0];
         dispatch(fetchProjectSuccess(projectValue));
       })
@@ -57,7 +55,11 @@ export const fetchProject = (id) => {
   };
 };
 
-const fetchProjectsSuccess = (projectList) => {
+const fetchProjectsSuccess = (snapshot) => {
+  let projectList;
+  if (snapshot.val()) {
+    projectList = Object.values(snapshot.val());
+  }
   return {
     type: actionTypes.FETCH_PROJECTS_SUCCESS,
     projects: projectList,
