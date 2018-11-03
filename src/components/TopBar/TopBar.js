@@ -78,7 +78,7 @@ class TopBar extends Component {
             color="secondary"
             variant="contained"
             component={Link}
-            to="/new_project"
+            to="/projects/new"
             className={classes.projectButton}
           >
             CRIAR PROJETO
