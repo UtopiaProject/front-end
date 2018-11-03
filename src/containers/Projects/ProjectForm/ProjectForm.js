@@ -126,6 +126,26 @@ class ProjectForm extends Component {
           xl: false,
         },
       },
+      picture: {
+        elementType: 'text',
+        elementConfig: {
+          type: 'text',
+          label: 'URL da foto do projeto',
+        },
+        value: '',
+        validation: {
+          required: false,
+        },
+        valid: false,
+        touched: false,
+        gridSizing: {
+          xs: 12,
+          sm: false,
+          md: false,
+          lg: false,
+          xl: false,
+        },
+      },
     },
     formIsValid: false,
     errors: [],
@@ -174,8 +194,7 @@ class ProjectForm extends Component {
       projectInfo[key] = projectForm[key].value;
     });
     projectInfo.author = user.email;
-    projectInfo.createdAt = new Date().toString();
-    projectInfo.picture = '';
+    projectInfo.createdAt = new Date().toLocaleString();
 
     // If there's a loaded project, update it
     if (project && formIsValid) {
