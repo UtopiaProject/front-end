@@ -7,14 +7,18 @@ import {
   withStyles,
   Grid,
   Button,
+  AppBar,
+  Tabs,
+  Tab,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
-import * as actions from '../../../store/actions';
+import ProjectNews from '../ProjectNews/ProjectNews';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
+import * as actions from '../../../store/actions';
 
 
-const styles = () => ({
+const styles = theme => ({
   card: {
     margin: '3rem 0',
     padding: '1rem',
@@ -28,9 +32,18 @@ const styles = () => ({
     height: '100%',
     width: '100%',
   },
+  appBar: {
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
 });
 
 class ProjectProfile extends Component {
+  state = {
+    currentTab: 0,
+  };
+
   componentDidMount() {
     const { onLoadProject, match: { params: { id } } } = this.props;
     onLoadProject(id);
@@ -41,8 +54,13 @@ class ProjectProfile extends Component {
     onDeleteProject(id);
   }
 
+  handleChange = (event, value) => {
+    this.setState({ currentTab: value });
+  };
+
   render() {
     const { classes, project } = this.props;
+    const { currentTab } = this.state;
 
     if (!project) { return null; }
     const {
@@ -62,7 +80,7 @@ class ProjectProfile extends Component {
 
     return (
       <Grid container justify="center">
-        <Grid item xs={7}>
+        <Grid item xs={12} sm={7}>
           <Paper className={classes.card}>
             <Grid container spacing={32}>
               <Grid item xs={12} sm={4} className={classes.cardHeader}>
@@ -96,6 +114,27 @@ class ProjectProfile extends Component {
                   <strong>Descrição: </strong>
                   {description}
                 </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <div className={classes.AppBar}>
+                  <AppBar position="static">
+                    <Tabs
+                      value={currentTab}
+                      onChange={this.handleChange}
+                      fullWidth
+                      scrollable
+                    >
+                      <Tab label="Notícias" />
+                      <Tab label="Feedbacks" />
+                      <Tab label="Descobertas" />
+                      <Tab label="Referências" />
+                    </Tabs>
+                  </AppBar>
+                  {currentTab === 0 && <ProjectNews projectId={id} />}
+                  {currentTab === 1 && <Typography>Item Two</Typography>}
+                  {currentTab === 2 && <Typography>Item Three</Typography>}
+                  {currentTab === 3 && <Typography>Item Four</Typography>}
+                </div>
               </Grid>
             </Grid>
           </Paper>

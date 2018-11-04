@@ -18,3 +18,10 @@ export {
   deleteProject,
   updateProject,
 } from './projects';
+
+export {
+  createNewsArticle,
+  fetchNewsArticle,
+  fetchNewsArticles,
+  updateNewsArticle,
+} from './newsArticles';

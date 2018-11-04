@@ -13,7 +13,10 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
-import { updateObject, checkValidity } from '../../../helpers/Validation/Validation';
+import {
+  updateObject,
+  checkValidity,
+} from '../../../helpers/Validation/Validation';
 import * as actions from '../../../store/actions';
 import Input from '../../../components/Input/Input';
 

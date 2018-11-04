@@ -26,7 +26,11 @@ export const doCreateProject = (project) => {
 
 // Read Project
 export const doReadProject = (id) => {
-  return database.ref('/projects/').orderByChild('id').equalTo(id).once('value');
+  return database
+    .ref('/projects/')
+    .orderByChild('id')
+    .equalTo(id)
+    .once('value');
 };
 
 // Read Projects
