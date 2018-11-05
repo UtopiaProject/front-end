@@ -25,3 +25,9 @@ export {
   fetchNewsArticles,
   updateNewsArticle,
 } from './newsArticles';
+
+export {
+  createDiscovery,
+  fetchDiscovery,
+  updateDiscovery,
+} from './discoveries';

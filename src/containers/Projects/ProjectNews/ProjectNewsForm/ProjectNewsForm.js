@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import {
   withStyles,
+  Button,
   IconButton,
   Grid,
   Typography,
@@ -12,8 +13,6 @@ import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import { updateObject, checkValidity } from '../../../../helpers/Validation/Validation';
 import * as actions from '../../../../store/actions';
 import Input from '../../../../components/Input/Input';
-import AddButton from '../../../../components/Buttons/AddButton/AddButton';
-import CreateButton from '../../../../components/Buttons/CreateButton/CreateButton';
 
 const styles = theme => ({
   fab: {
@@ -29,10 +28,16 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  newsButtonArea: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: '0 1rem',
+  },
 });
 
 class ProjectNews extends Component {
   state = {
+    addingNews: false,
     newsForm: {
       title: {
         elementType: 'text',
@@ -103,8 +108,8 @@ class ProjectNews extends Component {
   handleSaveNews = () => {
     const { newsForm, formIsValid } = this.state;
     const {
-      newsArticle,
       projectId,
+      newsArticle,
       onCreateNewsArticle,
       onUpdateNewsArticle,
     } = this.props;
@@ -164,11 +169,7 @@ class ProjectNews extends Component {
       />
     ));
 
-    const saveButton = addingNews
-      ? <CreateButton clicked={this.handleSaveNews} />
-      : <AddButton clicked={this.handleToggleNewsForm} />;
-
-    return (
+    const formArea = (
       <Grid container className={classes.newsForm}>
         <Grid item xs={12} className={classes.newsFormHeader}>
           <Typography variant="headline">
@@ -181,6 +182,37 @@ class ProjectNews extends Component {
         <Grid item xs={12}>
           {form}
         </Grid>
+      </Grid>
+    );
+
+    const addArticleButton = (
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={this.handleToggleNewsForm}
+      >
+        NOVA NOTÍCIA
+      </Button>
+    );
+
+    const saveArticleButton = (
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={this.handleSaveNews}
+      >
+        SALVAR
+      </Button>
+    );
+
+    const button = addingNews ? saveArticleButton : addArticleButton;
+
+    return (
+      <Grid container>
+        <Grid item xs={12} className={classes.newsButtonArea}>
+          {button}
+        </Grid>
+        {addingNews && formArea}
       </Grid>
     );
   }

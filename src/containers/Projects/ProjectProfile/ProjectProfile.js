@@ -14,9 +14,9 @@ import {
 import { Link } from 'react-router-dom';
 import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
 import ProjectNews from '../ProjectNews/ProjectNews';
+import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
 import * as actions from '../../../store/actions';
-
 
 const styles = theme => ({
   card: {
@@ -25,6 +25,7 @@ const styles = theme => ({
   },
   cardHeader: {
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   cardImage: {
@@ -92,7 +93,7 @@ class ProjectProfile extends Component {
               </Grid>
               <Grid item xs={12} sm={8}>
                 <Grid container>
-                  <Grid item xs={12} className={classes.cardHeader} alignItems="center">
+                  <Grid item xs={12} className={classes.cardHeader}>
                     <Typography variant="title">
                       {title}
                     </Typography>
@@ -132,7 +133,7 @@ class ProjectProfile extends Component {
                   </AppBar>
                   {currentTab === 0 && <ProjectNews projectId={id} />}
                   {currentTab === 1 && <Typography>Item Two</Typography>}
-                  {currentTab === 2 && <Typography>Item Three</Typography>}
+                  {currentTab === 2 && <ProjectDiscoveries projectId={id} />}
                   {currentTab === 3 && <Typography>Item Four</Typography>}
                 </div>
               </Grid>
