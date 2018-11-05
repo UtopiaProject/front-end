@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
 import ProjectNews from '../ProjectNews/ProjectNews';
 import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
+import ProjectReferences from '../ProjectReferences/ProjectReferences';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
 import * as actions from '../../../store/actions';
 
@@ -134,7 +135,7 @@ class ProjectProfile extends Component {
                   {currentTab === 0 && <ProjectNews projectId={id} />}
                   {currentTab === 1 && <Typography>Item Two</Typography>}
                   {currentTab === 2 && <ProjectDiscoveries projectId={id} />}
-                  {currentTab === 3 && <Typography>Item Four</Typography>}
+                  {currentTab === 3 && <ProjectReferences projectId={id} />}
                 </div>
               </Grid>
             </Grid>

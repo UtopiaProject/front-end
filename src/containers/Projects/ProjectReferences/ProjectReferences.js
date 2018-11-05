@@ -12,51 +12,51 @@ import {
 import * as actions from '../../../store/actions';
 
 const styles = () => ({
-  discoveriesHeader: {
+  referencesHeader: {
     display: 'flex',
     justifyContent: 'flex-end',
     padding: '1rem',
   },
-  discoveriesContainer: {
+  referencesContainer: {
     padding: '1rem',
   },
 });
 
-class ProjectDiscoveries extends Component {
+class ProjectReferences extends Component {
   state = {
     editorHtml: '',
   };
 
   componentDidMount() {
-    const { projectId, onLoadDiscovery } = this.props;
-    onLoadDiscovery(projectId);
+    const { projectId, onLoadReference } = this.props;
+    onLoadReference(projectId);
   }
 
   componentDidUpdate(prevProps) {
-    const { projectId, discovery, onLoadDiscovery } = this.props;
-    const prevDiscoveryExists = prevProps.discovery;
-    if (prevDiscoveryExists) {
-      const prevDescription = prevProps.discovery.description;
-      const currentDescription = discovery.description;
+    const { projectId, reference, onLoadReference } = this.props;
+    const prevReferenceExists = prevProps.reference;
+    if (prevReferenceExists) {
+      const prevDescription = prevProps.reference.description;
+      const currentDescription = reference.description;
       if (prevDescription !== currentDescription) {
-        onLoadDiscovery(projectId);
+        onLoadReference(projectId);
       }
     }
   }
 
-  handleSaveDiscovery = () => {
+  handleSaveReference = () => {
     const { editorHtml } = this.state;
     const {
       projectId,
-      onUpdateDiscovery,
+      onUpdateReference,
     } = this.props;
 
-    const discoveryData = {};
-    discoveryData.description = editorHtml;
-    discoveryData.projectId = projectId;
-    discoveryData.updatedAt = new Date().toLocaleString();
+    const referenceData = {};
+    referenceData.description = editorHtml;
+    referenceData.projectId = projectId;
+    referenceData.updatedAt = new Date().toLocaleString();
 
-    onUpdateDiscovery(discoveryData);
+    onUpdateReference(referenceData);
   }
 
   handleBodyChange = (editorHtml) => {
@@ -65,17 +65,17 @@ class ProjectDiscoveries extends Component {
 
   render() {
     const { editorHtml } = this.state;
-    const { classes, discovery } = this.props;
+    const { classes, reference } = this.props;
 
     return (
       <Grid container>
         <Grid item xs={12}>
           <Paper>
-            <Grid item xs={12} className={classes.discoveriesHeader}>
+            <Grid item xs={12} className={classes.referencesHeader}>
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={this.handleSaveDiscovery}
+                onClick={this.handleSaveReference}
               >
                 SALVAR
               </Button>
@@ -84,13 +84,13 @@ class ProjectDiscoveries extends Component {
               <ReactQuill
                 onChange={this.handleBodyChange}
                 value={editorHtml}
-                modules={ProjectDiscoveries.modules}
-                formats={ProjectDiscoveries.formats}
+                modules={ProjectReferences.modules}
+                formats={ProjectReferences.formats}
                 placeholder="bla"
               />
             </Grid>
-            <Grid item xs={12} className={classes.discoveriesContainer}>
-              {discovery && <div dangerouslySetInnerHTML={{ __html: discovery.description }} />}
+            <Grid item xs={12} className={classes.referencesContainer}>
+              {reference && <div dangerouslySetInnerHTML={{ __html: reference.description }} />}
             </Grid>
           </Paper>
         </Grid>
@@ -99,7 +99,7 @@ class ProjectDiscoveries extends Component {
   }
 }
 
-ProjectDiscoveries.modules = {
+ProjectReferences.modules = {
   toolbar: [
     [{ header: '1' }, { header: '2' }, { font: [] }],
     [{ size: [] }],
@@ -111,42 +111,42 @@ ProjectDiscoveries.modules = {
   ],
 };
 
-ProjectDiscoveries.formats = [
+ProjectReferences.formats = [
   'header', 'font', 'size',
   'bold', 'italic', 'underline', 'strike', 'blockquote',
   'list', 'bullet', 'indent',
   'link', 'image', 'video',
 ];
 
-ProjectDiscoveries.defaultProps = {
-  discovery: null,
+ProjectReferences.defaultProps = {
+  reference: null,
   error: null,
 };
 
-ProjectDiscoveries.propTypes = {
+ProjectReferences.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   projectId: PropTypes.string.isRequired,
-  discovery: PropTypes.shape({}),
+  reference: PropTypes.shape({}),
   error: PropTypes.shape({}),
-  onLoadDiscovery: PropTypes.func.isRequired,
-  onUpdateDiscovery: PropTypes.func.isRequired,
+  onLoadReference: PropTypes.func.isRequired,
+  onUpdateReference: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    discovery: state.discoveries.discovery,
-    error: state.discoveries.error,
+    reference: state.references.reference,
+    error: state.references.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoadDiscovery: discovery => dispatch(actions.fetchDiscovery(discovery)),
-    onUpdateDiscovery: discovery => dispatch(actions.updateDiscovery(discovery)),
+    onLoadReference: reference => dispatch(actions.fetchReference(reference)),
+    onUpdateReference: reference => dispatch(actions.updateReference(reference)),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(styles)(ProjectDiscoveries));
+)(withStyles(styles)(ProjectReferences));

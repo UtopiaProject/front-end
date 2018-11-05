@@ -27,7 +27,11 @@ export {
 } from './newsArticles';
 
 export {
-  createDiscovery,
   fetchDiscovery,
   updateDiscovery,
 } from './discoveries';
+
+export {
+  fetchReference,
+  updateReference,
+} from './references';

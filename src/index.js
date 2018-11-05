@@ -18,6 +18,7 @@ import usersReducer from './store/reducers/users';
 import projectsReducer from './store/reducers/projects';
 import newsArticlesReducer from './store/reducers/newsArticles';
 import discoveriesReducer from './store/reducers/discoveries';
+import referencesReducer from './store/reducers/references';
 
 const rootReducer = combineReducers({
   auth: authenticationReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   projects: projectsReducer,
   newsArticles: newsArticlesReducer,
   discoveries: discoveriesReducer,
+  references: referencesReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
