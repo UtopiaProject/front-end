@@ -4,6 +4,7 @@ import * as projects from './projects';
 import * as newsArticles from './newsArticles';
 import * as discoveries from './discoveries';
 import * as references from './references';
+import * as comments from './comments';
 import * as firebase from './firebase';
 
 export {
@@ -13,5 +14,6 @@ export {
   newsArticles,
   discoveries,
   references,
+  comments,
   firebase,
 };

@@ -18,6 +18,7 @@ import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
 import ProjectReferences from '../ProjectReferences/ProjectReferences';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
 import * as actions from '../../../store/actions';
+import CommentSection from '../CommentSection/CommentSection';
 
 const styles = theme => ({
   card: {
@@ -137,6 +138,9 @@ class ProjectProfile extends Component {
                   {currentTab === 2 && <ProjectDiscoveries projectId={id} />}
                   {currentTab === 3 && <ProjectReferences projectId={id} />}
                 </div>
+              </Grid>
+              <Grid item xs={12}>
+                <CommentSection projectId={id} />
               </Grid>
             </Grid>
           </Paper>

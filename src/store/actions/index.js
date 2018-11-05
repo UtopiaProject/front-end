@@ -35,3 +35,10 @@ export {
   fetchReference,
   updateReference,
 } from './references';
+
+export {
+  createComment,
+  fetchComments,
+  updateComment,
+  deleteComment,
+} from './comments';
