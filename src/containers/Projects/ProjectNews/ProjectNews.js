@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  Paper,
   List,
   Grid,
   Typography,
@@ -23,18 +22,16 @@ class ProjectNews extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Paper>
-            <List component="nav">
-              <ProjectNewsForm projectId={projectId} />
-              {
-                newsArticles
-                  ? newsArticles.reverse().map(article => (
-                    <ProjectNewsArticle key={article.createdAt} article={article} />
-                  ))
-                  : <Typography align="center">Nenhuma notícia encontrada</Typography>
-              }
-            </List>
-          </Paper>
+          <List component="nav">
+            <ProjectNewsForm projectId={projectId} />
+            {
+              newsArticles
+                ? newsArticles.reverse().map(article => (
+                  <ProjectNewsArticle key={article.createdAt} article={article} />
+                ))
+                : <Typography align="center">Nenhuma notícia encontrada</Typography>
+            }
+          </List>
         </Grid>
       </Grid>
     );

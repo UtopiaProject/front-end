@@ -5,7 +5,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {
   Grid,
-  Paper,
   Button,
   withStyles,
 } from '@material-ui/core';
@@ -70,29 +69,27 @@ class ProjectDiscoveries extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Paper>
-            <Grid item xs={12} className={classes.discoveriesHeader}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={this.handleSaveDiscovery}
-              >
-                SALVAR
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <ReactQuill
-                onChange={this.handleBodyChange}
-                value={editorHtml}
-                modules={ProjectDiscoveries.modules}
-                formats={ProjectDiscoveries.formats}
-                placeholder="bla"
-              />
-            </Grid>
-            <Grid item xs={12} className={classes.discoveriesContainer}>
-              {discovery && <div dangerouslySetInnerHTML={{ __html: discovery.description }} />}
-            </Grid>
-          </Paper>
+          <Grid item xs={12} className={classes.discoveriesHeader}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={this.handleSaveDiscovery}
+            >
+              SALVAR
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <ReactQuill
+              onChange={this.handleBodyChange}
+              value={editorHtml}
+              modules={ProjectDiscoveries.modules}
+              formats={ProjectDiscoveries.formats}
+              placeholder="bla"
+            />
+          </Grid>
+          <Grid item xs={12} className={classes.discoveriesContainer}>
+            {discovery && <div dangerouslySetInnerHTML={{ __html: discovery.description }} />}
+          </Grid>
         </Grid>
       </Grid>
     );

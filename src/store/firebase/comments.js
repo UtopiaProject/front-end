@@ -4,6 +4,7 @@ import { database } from './firebase';
 export const doCreateComment = (comment) => {
   const {
     projectId,
+    author,
     description,
     createdAt,
   } = comment;
@@ -13,6 +14,7 @@ export const doCreateComment = (comment) => {
   return database.ref(`/projects/${projectId}/comments/${id}`).update({
     id,
     projectId,
+    author,
     description,
     createdAt,
   });

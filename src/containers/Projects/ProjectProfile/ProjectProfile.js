@@ -119,25 +119,27 @@ class ProjectProfile extends Component {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <div className={classes.AppBar}>
-                  <AppBar position="static">
-                    <Tabs
-                      value={currentTab}
-                      onChange={this.handleChange}
-                      fullWidth
-                      scrollable
-                    >
-                      <Tab label="Notícias" />
-                      <Tab label="Feedbacks" />
-                      <Tab label="Descobertas" />
-                      <Tab label="Referências" />
-                    </Tabs>
-                  </AppBar>
-                  {currentTab === 0 && <ProjectNews projectId={id} />}
-                  {currentTab === 1 && <Typography>Item Two</Typography>}
-                  {currentTab === 2 && <ProjectDiscoveries projectId={id} />}
-                  {currentTab === 3 && <ProjectReferences projectId={id} />}
-                </div>
+                <Paper>
+                  <div className={classes.AppBar}>
+                    <AppBar position="static">
+                      <Tabs
+                        value={currentTab}
+                        onChange={this.handleChange}
+                        fullWidth
+                        scrollable
+                      >
+                        <Tab label="Notícias" />
+                        <Tab label="Feedbacks" />
+                        <Tab label="Descobertas" />
+                        <Tab label="Referências" />
+                      </Tabs>
+                    </AppBar>
+                    {currentTab === 0 && <ProjectNews projectId={id} />}
+                    {currentTab === 1 && <Typography>Item Two</Typography>}
+                    {currentTab === 2 && <ProjectDiscoveries projectId={id} />}
+                    {currentTab === 3 && <ProjectReferences projectId={id} />}
+                  </div>
+                </Paper>
               </Grid>
               <Grid item xs={12}>
                 <CommentSection projectId={id} />

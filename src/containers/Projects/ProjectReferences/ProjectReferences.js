@@ -5,7 +5,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {
   Grid,
-  Paper,
   Button,
   withStyles,
 } from '@material-ui/core';
@@ -70,29 +69,27 @@ class ProjectReferences extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Paper>
-            <Grid item xs={12} className={classes.referencesHeader}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={this.handleSaveReference}
-              >
-                SALVAR
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <ReactQuill
-                onChange={this.handleBodyChange}
-                value={editorHtml}
-                modules={ProjectReferences.modules}
-                formats={ProjectReferences.formats}
-                placeholder="bla"
-              />
-            </Grid>
-            <Grid item xs={12} className={classes.referencesContainer}>
-              {reference && <div dangerouslySetInnerHTML={{ __html: reference.description }} />}
-            </Grid>
-          </Paper>
+          <Grid item xs={12} className={classes.referencesHeader}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={this.handleSaveReference}
+            >
+              SALVAR
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <ReactQuill
+              onChange={this.handleBodyChange}
+              value={editorHtml}
+              modules={ProjectReferences.modules}
+              formats={ProjectReferences.formats}
+              placeholder="bla"
+            />
+          </Grid>
+          <Grid item xs={12} className={classes.referencesContainer}>
+            {reference && <div dangerouslySetInnerHTML={{ __html: reference.description }} />}
+          </Grid>
         </Grid>
       </Grid>
     );
