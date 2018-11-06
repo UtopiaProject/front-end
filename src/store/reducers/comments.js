@@ -1,31 +1,12 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  project: null,
-  projects: null,
+  comment: null,
+  comments: null,
   error: null,
 };
 
-const filterProjectsByTitle = (state, action) => {
-  const filterRule = project => project.title.toLowerCase().startsWith(action.title);
-  let filteredProjects = state.projects.filter(filterRule);
-  if (filteredProjects.length === 0 || action.title.length === 0) {
-    filteredProjects = initialState.projects;
-  }
-  return {
-    ...state,
-    projects: filteredProjects,
-  };
-};
-
-const createProjectSuccess = (state, action) => {
-  return {
-    ...state,
-    project: null,
-  };
-};
-
-const createProjectFailure = (state, action) => {
+const createCommentFailure = (state, action) => {
   return {
     ...state,
     error: action.error,
@@ -33,49 +14,28 @@ const createProjectFailure = (state, action) => {
 };
 
 
-const fetchProjectsSuccess = (state, action) => {
+const fetchCommentsSuccess = (state, action) => {
   return {
     ...state,
-    projects: action.projects,
+    comments: action.comments,
   };
 };
 
-const fetchProjectsFailure = (state, action) => {
-  return {
-    ...state,
-    error: action.error,
-  };
-};
-
-const fetchProjectSuccess = (state, action) => {
-  return {
-    ...state,
-    project: action.project,
-  };
-};
-
-const fetchProjectFailure = (state, action) => {
+const updateCommentFailure = (state, action) => {
   return {
     ...state,
     error: action.error,
   };
 };
 
-const updateProjectFailure = (state, action) => {
+const deleteCommentSuccess = (state, action) => {
   return {
     ...state,
-    error: action.error,
+    comment: null,
   };
 };
 
-const deleteProjectSuccess = (state, action) => {
-  return {
-    ...state,
-    project: null,
-  };
-};
-
-const deleteProjectFailure = (state, action) => {
+const deleteCommentFailure = (state, action) => {
   return {
     ...state,
     error: action.error,
@@ -84,16 +44,11 @@ const deleteProjectFailure = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FILTER_PROJECTS_TITLE: return filterProjectsByTitle(state, action);
-    case actionTypes.CREATE_PROJECT_SUCCESS: return createProjectSuccess(state, action);
-    case actionTypes.CREATE_PROJECT_FAILURE: return createProjectFailure(state, action);
-    case actionTypes.FETCH_PROJECTS_SUCCESS: return fetchProjectsSuccess(state, action);
-    case actionTypes.FETCH_PROJECTS_FAILURE: return fetchProjectsFailure(state, action);
-    case actionTypes.FETCH_PROJECT_SUCCESS: return fetchProjectSuccess(state, action);
-    case actionTypes.FETCH_PROJECT_FAILURE: return fetchProjectFailure(state, action);
-    case actionTypes.UPDATE_PROJECT_FAILURE: return updateProjectFailure(state, action);
-    case actionTypes.DELETE_PROJECT_SUCCESS: return deleteProjectSuccess(state, action);
-    case actionTypes.DELETE_PROJECT_FAILURE: return deleteProjectFailure(state, action);
+    case actionTypes.CREATE_COMMENT_FAILURE: return createCommentFailure(state, action);
+    case actionTypes.FETCH_COMMENTS_SUCCESS: return fetchCommentsSuccess(state, action);
+    case actionTypes.UPDATE_COMMENT_FAILURE: return updateCommentFailure(state, action);
+    case actionTypes.DELETE_COMMENT_SUCCESS: return deleteCommentSuccess(state, action);
+    case actionTypes.DELETE_COMMENT_FAILURE: return deleteCommentFailure(state, action);
     default: return state;
   }
 };

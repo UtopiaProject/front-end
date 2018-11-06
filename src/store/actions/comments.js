@@ -28,9 +28,9 @@ const fetchCommentsSuccess = (snapshot) => {
   };
 };
 
-export const fetchComments = () => {
+export const fetchComments = (projectId) => {
   return (dispatch) => {
-    comments.doReadComments(dispatch, fetchCommentsSuccess);
+    comments.doReadComments(dispatch, fetchCommentsSuccess, projectId);
   };
 };
 

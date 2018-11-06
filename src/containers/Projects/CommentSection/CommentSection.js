@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
 import {
   Grid,
+  Button,
   Typography,
   Paper,
   withStyles,
@@ -12,6 +13,9 @@ import * as actions from '../../../store/actions';
 
 const styles = () => ({
   commentContainer: {
+    padding: '1rem',
+  },
+  commentButton: {
     padding: '1rem',
   },
 });
@@ -30,6 +34,16 @@ class CommentSection extends Component {
     this.setState({ commentBody });
   }
 
+  handleSaveComment = () => {
+    const { commentBody } = this.state;
+    const { onCreateComment, projectId } = this.props;
+    const commentData = {};
+    commentData.projectId = projectId;
+    commentData.description = commentBody;
+    commentData.createdAt = new Date().toLocaleString();
+    onCreateComment(commentData);
+  }
+
   render() {
     const { commentBody } = this.state;
     const { comments, classes } = this.props;
@@ -37,31 +51,32 @@ class CommentSection extends Component {
     let commentList;
     if (comments) {
       commentList = comments.map(comment => (
-        <Grid item xs={12} className={classes.commentContainer}>
-          <div dangerouslySetInnerHTML={{ __html: comment.description }} />
-        </Grid>
+        <div
+          key={comment.id}
+          dangerouslySetInnerHTML={{ __html: comment.description }}
+        />
       ));
     }
 
     const notFound = (
       <Typography variant="subheading">
-        No comments found
+        Nenhum comentário realizado
       </Typography>
     );
 
     return (
-      <Fragment>
+      <Paper className={classes.commentContainer}>
         <Grid item xs={12}>
           <Typography variant="headline">
-            Comments Section
+            Seção de comentários
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Paper>
+          <Grid item xs={12} className={classes.commentContainer}>
             {commentList || notFound}
-          </Paper>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} className={classes.commentContainer}>
           <ReactQuill
             onChange={this.handleBodyChange}
             value={commentBody}
@@ -70,7 +85,16 @@ class CommentSection extends Component {
             placeholder="bla"
           />
         </Grid>
-      </Fragment>
+        <Grid item xs={12} className={classes.commentButton}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={this.handleSaveComment}
+          >
+            COMENTAR
+          </Button>
+        </Grid>
+      </Paper>
     );
   }
 }
@@ -100,6 +124,7 @@ CommentSection.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   user: PropTypes.shape({}).isRequired,
   onLoadComments: PropTypes.func.isRequired,
+  onCreateComment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -111,7 +136,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoadComments: (projectId) => dispatch(actions.fetchComments(projectId)),
+    onLoadComments: projectId => dispatch(actions.fetchComments(projectId)),
+    onCreateComment: commentData => dispatch(actions.createComment(commentData)),
   };
 };
 

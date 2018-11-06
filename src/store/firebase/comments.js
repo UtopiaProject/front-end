@@ -18,7 +18,7 @@ export const doCreateComment = (comment) => {
   });
 };
 
-// Read Comment
+// Read Comments
 export const doReadComments = (dispatch, callback, projectId) => {
   return database.ref(`/projects/${projectId}/comments`).on('value', (snapshot) => {
     dispatch(callback(snapshot));
