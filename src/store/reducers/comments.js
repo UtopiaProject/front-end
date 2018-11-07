@@ -13,7 +13,6 @@ const createCommentFailure = (state, action) => {
   };
 };
 
-
 const fetchCommentsSuccess = (state, action) => {
   return {
     ...state,
