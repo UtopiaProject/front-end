@@ -12,9 +12,11 @@ import {
 } from '@material-ui/core';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import ThumbsUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbsDownIcon from '@material-ui/icons/ThumbDown';
 import * as actions from '../../../store/actions';
 
-const styles = () => ({
+const styles = theme => ({
   commentContainer: {
     padding: '1rem',
   },
@@ -38,6 +40,25 @@ const styles = () => ({
     display: 'flex',
     flexWrap: 'wrap',
     wordBreak: 'break-all',
+  },
+  commentVoting: {
+    padding: '0 0.3rem',
+  },
+  voteUp: {
+    '&:hover': {
+      color: theme.palette.primary.light,
+    },
+  },
+  voteUpClicked: {
+    color: theme.palette.primary.light,
+  },
+  voteDown: {
+    '&:hover': {
+      color: theme.palette.secondary.light,
+    },
+  },
+  voteDownClicked: {
+    color: theme.palette.secondary.light,
   },
 });
 
@@ -90,6 +111,16 @@ class CommentSection extends Component {
     onDeleteComment(comment);
   }
 
+  handleUpVote = (comment) => {
+    const { onUpvoteComment } = this.props;
+    onUpvoteComment(comment);
+  }
+
+  handleDownVote = (comment) => {
+    const { onDownvoteComment } = this.props;
+    onDownvoteComment(comment);
+  }
+
   render() {
     const { commentBody } = this.state;
     const { comments, user, classes } = this.props;
@@ -131,6 +162,22 @@ class CommentSection extends Component {
                 key={comment.id}
                 dangerouslySetInnerHTML={{ __html: comment.description }}
               />
+            </Grid>
+            <Grid item xs={12} className={classes.commentVoting}>
+              <IconButton
+                className={classes.voteUp}
+                onClick={() => this.handleUpVote(comment)}
+              >
+                <ThumbsUpIcon />
+                {`${comment.upvotes || 0}`}
+              </IconButton>
+              <IconButton
+                className={classes.voteDown}
+                onClick={() => this.handleDownVote(comment)}
+              >
+                <ThumbsDownIcon />
+                {`${comment.downvotes || 0}`}
+              </IconButton>
             </Grid>
           </Grid>
         </Grid>
@@ -206,6 +253,8 @@ CommentSection.propTypes = {
   onLoadComments: PropTypes.func.isRequired,
   onUpdateComment: PropTypes.func.isRequired,
   onDeleteComment: PropTypes.func.isRequired,
+  onUpvoteComment: PropTypes.func.isRequired,
+  onDownvoteComment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -221,6 +270,8 @@ const mapDispatchToProps = (dispatch) => {
     onCreateComment: commentData => dispatch(actions.createComment(commentData)),
     onUpdateComment: commentData => dispatch(actions.updateComment(commentData)),
     onDeleteComment: commentData => dispatch(actions.deleteComment(commentData)),
+    onUpvoteComment: commentData => dispatch(actions.upvoteComment(commentData)),
+    onDownvoteComment: commentData => dispatch(actions.downvoteComment(commentData)),
   };
 };
 

@@ -41,6 +41,28 @@ export const doUpdateComment = (comment) => {
   });
 };
 
+// Upvote Comment
+export const doUpvoteComment = (comment) => {
+  const {
+    id,
+    projectId,
+  } = comment;
+  return database
+    .ref(`/projects/${projectId}/comments/${id}/upvotes`)
+    .transaction(currentUpvotes => (currentUpvotes || 0) + 1);
+};
+
+// Downvote Comment
+export const doDownvoteComment = (comment) => {
+  const {
+    id,
+    projectId,
+  } = comment;
+  return database
+    .ref(`/projects/${projectId}/comments/${id}/downvotes`)
+    .transaction(currentDownvotes => (currentDownvotes || 0) + 1);
+};
+
 // Delete Comment
 export const doDeleteComment = (comment) => {
   return database

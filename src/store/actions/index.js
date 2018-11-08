@@ -41,4 +41,6 @@ export {
   fetchComments,
   updateComment,
   deleteComment,
+  upvoteComment,
+  downvoteComment,
 } from './comments';

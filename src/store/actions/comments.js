@@ -74,3 +74,47 @@ export const deleteComment = (id) => {
       });
   };
 };
+
+const upvoteCommentSuccess = (comment) => {
+  return {
+    type: actionTypes.UPVOTE_COMMENT_SUCCESS,
+    comment,
+  };
+};
+
+const upvoteCommentFailure = (error) => {
+  return {
+    type: actionTypes.UPVOTE_COMMENT_FAILURE,
+    error,
+  };
+};
+
+export const upvoteComment = (comment) => {
+  return (dispatch) => {
+    comments.doUpvoteComment(comment)
+      .then(snapshot => dispatch(upvoteCommentSuccess(snapshot.val())))
+      .catch(error => dispatch(upvoteCommentFailure(error)));
+  };
+};
+
+const downvoteCommentSuccess = (comment) => {
+  return {
+    type: actionTypes.DOWNVOTE_COMMENT_SUCCESS,
+    comment,
+  };
+};
+
+const downvoteCommentFailure = (error) => {
+  return {
+    type: actionTypes.DOWNVOTE_COMMENT_FAILURE,
+    error,
+  };
+};
+
+export const downvoteComment = (comment) => {
+  return (dispatch) => {
+    comments.doDownvoteComment(comment)
+      .then(snapshot => dispatch(downvoteCommentSuccess(snapshot.val())))
+      .catch(error => dispatch(downvoteCommentFailure(error)));
+  };
+};
