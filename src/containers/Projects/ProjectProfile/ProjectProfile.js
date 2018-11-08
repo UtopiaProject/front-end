@@ -16,9 +16,10 @@ import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
 import ProjectNews from '../ProjectNews/ProjectNews';
 import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
 import ProjectReferences from '../ProjectReferences/ProjectReferences';
+import ProjectFeedback from '../ProjectFeedback/ProjectFeedback';
+import CommentSection from '../CommentSection/CommentSection';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
 import * as actions from '../../../store/actions';
-import CommentSection from '../CommentSection/CommentSection';
 
 const styles = theme => ({
   card: {
@@ -135,7 +136,7 @@ class ProjectProfile extends Component {
                       </Tabs>
                     </AppBar>
                     {currentTab === 0 && <ProjectNews projectId={id} />}
-                    {currentTab === 1 && <Typography>Item Two</Typography>}
+                    {currentTab === 1 && <ProjectFeedback projectId={id} />}
                     {currentTab === 2 && <ProjectDiscoveries projectId={id} />}
                     {currentTab === 3 && <ProjectReferences projectId={id} />}
                   </div>
