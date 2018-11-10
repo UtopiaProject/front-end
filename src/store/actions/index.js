@@ -37,6 +37,10 @@ export {
 } from './references';
 
 export {
+  fetchFeedbacks,
+} from './feedbacks';
+
+export {
   createComment,
   fetchComments,
   updateComment,

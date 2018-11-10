@@ -19,6 +19,7 @@ import projectsReducer from './store/reducers/projects';
 import newsArticlesReducer from './store/reducers/newsArticles';
 import discoveriesReducer from './store/reducers/discoveries';
 import referencesReducer from './store/reducers/references';
+import feedbacksReducer from './store/reducers/feedbacks';
 import commentsReducer from './store/reducers/comments';
 
 const rootReducer = combineReducers({
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   newsArticles: newsArticlesReducer,
   discoveries: discoveriesReducer,
   references: referencesReducer,
+  feedbacks: feedbacksReducer,
   comments: commentsReducer,
 });
 
