@@ -17,6 +17,10 @@ import ThumbsDownIcon from '@material-ui/icons/ThumbDown';
 import * as actions from '../../../store/actions';
 
 const styles = theme => ({
+  commentSectionHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   commentContainer: {
     padding: '1rem',
   },
@@ -125,10 +129,12 @@ class CommentSection extends Component {
     const { commentBody } = this.state;
     const { comments, user, classes } = this.props;
 
+    let commentCount;
     let commentList;
     if (comments && user) {
+      commentCount = `${comments.length} comentários`;
       commentList = comments.map(comment => (
-        <Grid item xs={12}>
+        <Grid key={comment.id} item xs={12}>
           <Grid container className={classes.comment}>
             <Grid
               item
@@ -192,9 +198,12 @@ class CommentSection extends Component {
 
     return (
       <Paper className={classes.commentContainer}>
-        <Grid item xs={12}>
+        <Grid item xs={12} className={classes.commentSectionHeader}>
           <Typography variant="headline">
             Seção de comentários
+          </Typography>
+          <Typography variant="headline">
+            {commentCount}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -244,10 +253,14 @@ CommentSection.formats = [
   'link', 'image', 'video',
 ];
 
+CommentSection.defaultProps = {
+  comments: null,
+};
+
 CommentSection.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   projectId: PropTypes.string.isRequired,
-  comments: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  comments: PropTypes.arrayOf(PropTypes.shape({})),
   user: PropTypes.shape({}).isRequired,
   onCreateComment: PropTypes.func.isRequired,
   onLoadComments: PropTypes.func.isRequired,
