@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Dinero from 'dinero.js';
+import CurrencyCodes from 'currency-codes';
 import {
   Paper,
   Typography,
@@ -10,42 +12,114 @@ import {
   AppBar,
   Tabs,
   Tab,
+  LinearProgress,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
+import WrapperModal from '../../../components/Modal/WrapperModal';
+import Input from '../../../components/Input/Input';
 import ProjectNews from '../ProjectNews/ProjectNews';
 import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
 import ProjectReferences from '../ProjectReferences/ProjectReferences';
 import ProjectFeedback from '../ProjectFeedback/ProjectFeedback';
 import CommentSection from '../CommentSection/CommentSection';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
+import {
+  updateObject,
+  checkValidity,
+} from '../../../helpers/Validation/Validation';
 import * as actions from '../../../store/actions';
 
-const styles = theme => ({
+const fundingToInt = (funding) => {
+  return parseInt(funding, 10) || 0;
+};
+
+const formatFunding = (funding, currency) => {
+  const fundingIntValue = fundingToInt(funding);
+  const dineroFunding = Dinero({ amount: fundingIntValue, currency });
+  const formattedDineroFunding = dineroFunding.toFormat('$0,0');
+  return formattedDineroFunding;
+};
+
+
+const styles = () => ({
   card: {
     margin: '3rem 0',
     padding: '1rem',
   },
-  cardHeader: {
+  projectHeader: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  cardImage: {
+  projectPicture: {
     borderRadius: '3px',
     height: '100%',
     width: '100%',
   },
-  appBar: {
-    flexGrow: 1,
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
+  fundingTarget: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  fundingButton: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  fundingModal: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  fundingFormFields: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 });
 
 class ProjectProfile extends Component {
   state = {
     currentTab: 0,
+    openFundingModal: false,
+    formIsValid: false,
+    fundingForm: {
+      currency: {
+        elementType: 'select',
+        elementConfig: {
+          label: 'Moeda',
+          options: CurrencyCodes.codes().map(code => ({ value: code, label: code })),
+        },
+        value: 'USD',
+        validation: {},
+        valid: true,
+        touched: false,
+        gridSizing: {
+          xs: 2,
+          sm: false,
+          md: false,
+          lg: false,
+          xl: false,
+        },
+      },
+      currentFunding: {
+        elementType: 'number',
+        elementConfig: {
+          type: 'number',
+          label: 'Quantia para contribuir',
+        },
+        value: 0,
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+        gridSizing: {
+          xs: 9,
+          sm: false,
+          md: false,
+          lg: false,
+          xl: false,
+        },
+      },
+    },
   };
 
   componentDidMount() {
@@ -58,13 +132,81 @@ class ProjectProfile extends Component {
     onDeleteProject(id);
   }
 
-  handleChange = (event, value) => {
+  handleNavChange = (event, value) => {
     this.setState({ currentTab: value });
+  };
+
+  handleToggleModal = () => {
+    const { openFundingModal } = this.state;
+    const toggleModal = !openFundingModal;
+    this.setState({ openFundingModal: toggleModal });
+  }
+
+  handleFundingStatus = () => {
+    const { project } = this.props;
+    const { currentFunding, fundingTarget } = project;
+    const fundingPercentage = fundingToInt(currentFunding) / fundingToInt(fundingTarget);
+    return fundingPercentage * 100;
+  }
+
+  handleInputChange = (event, inputIdentifier) => {
+    const { fundingForm } = this.state;
+    const updatedFormElement = updateObject(fundingForm[inputIdentifier], {
+      value: event.target.value,
+      valid: checkValidity(event.target.value, fundingForm[inputIdentifier].validation),
+      touched: true,
+    });
+
+    const updatedFundingForm = updateObject(fundingForm, {
+      [inputIdentifier]: updatedFormElement,
+    });
+
+    let formIsValid = true;
+    Object.keys(updatedFundingForm).forEach((input) => {
+      formIsValid = updatedFundingForm[input].valid && formIsValid;
+    });
+
+    this.setState({ fundingForm: updatedFundingForm, formIsValid });
+  };
+
+  handleSubmitFunds = () => {
+    const { fundingForm, formIsValid } = this.state;
+    const {
+      project,
+      user,
+      onFundProject,
+    } = this.props;
+
+    const projectFunding = project.currentFunding || 0;
+    const userFunds = fundingForm.currentFunding.value * 100;
+    const newFundingTotal = projectFunding + userFunds;
+    const fundingInfo = {};
+    fundingInfo.id = project.id;
+    fundingInfo.author = user.email;
+    fundingInfo.funds = newFundingTotal;
+    fundingInfo.currency = fundingForm.currency.value;
+    fundingInfo.createdAt = new Date().toLocaleString();
+    if (formIsValid) onFundProject(fundingInfo);
   };
 
   render() {
     const { classes, project } = this.props;
-    const { currentTab } = this.state;
+    const { currentTab, openFundingModal, fundingForm } = this.state;
+
+    const formElements = Object.keys(fundingForm).map(e => (
+      {
+        id: e,
+        config: fundingForm[e],
+      }
+    ));
+
+    const form = formElements.map(e => (
+      <Input
+        key={e.id}
+        element={e.config}
+        changed={event => this.handleInputChange(event, e.id)}
+      />
+    ));
 
     if (!project) { return null; }
     const {
@@ -75,7 +217,14 @@ class ProjectProfile extends Component {
       introduction,
       description,
       createdAt,
+      fundingTarget,
+      currency,
+      currentFunding,
     } = project;
+
+    const formattedCurrentFunding = formatFunding(currentFunding, currency);
+    const formattedFundingTarget = formatFunding(fundingTarget, currency);
+    const fundingStatus = `${currency} ${formattedCurrentFunding}/${formattedFundingTarget}`;
 
     const menuOptions = [
       <Button component={Link} to={`/projects/${id}/edit`}>EDIT</Button>,
@@ -87,16 +236,16 @@ class ProjectProfile extends Component {
         <Grid item xs={12} sm={7}>
           <Paper className={classes.card}>
             <Grid container spacing={32}>
-              <Grid item xs={12} sm={4} className={classes.cardHeader}>
+              <Grid item xs={12} sm={4} className={classes.projectHeader}>
                 <img
                   src={picture || defaultProjectPicture}
                   alt={title}
-                  className={classes.cardImage}
+                  className={classes.projectPicture}
                 />
               </Grid>
               <Grid item xs={12} sm={8}>
                 <Grid container>
-                  <Grid item xs={12} className={classes.cardHeader}>
+                  <Grid item xs={12} className={classes.projectHeader}>
                     <Typography variant="title">
                       {title}
                     </Typography>
@@ -110,6 +259,61 @@ class ProjectProfile extends Component {
                       <strong>Introdução: </strong>
                       {introduction}
                     </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <br />
+                    <br />
+                    <Grid container spacing={16}>
+                      <Grid item xs={12} className={classes.fundingTarget}>
+                        <Typography variant="title">
+                          Financiamento:
+                        </Typography>
+                        <div>
+                          {fundingStatus}
+                        </div>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <LinearProgress
+                          variant="determinate"
+                          value={this.handleFundingStatus()}
+                        />
+                      </Grid>
+                      <Grid item xs={12} className={classes.fundingButton}>
+                        <Button
+                          variant="raised"
+                          color="secondary"
+                          onClick={this.handleToggleModal}
+                        >
+                          CONTRIBUIR
+                        </Button>
+                        <WrapperModal
+                          title="funding section"
+                          open={openFundingModal}
+                          closed={this.handleToggleModal}
+                          className={classes.fundingModal}
+                        >
+                          <Grid container spacing={16}>
+                            <Grid item xs={12}>
+                              <Typography variant="title">
+                                Com quanto você quer contribuir?
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12} className={classes.fundingFormFields}>
+                              {form}
+                            </Grid>
+                            <Grid item xs={12} className={classes.fundingButton}>
+                              <Button
+                                variant="raised"
+                                color="secondary"
+                                onClick={this.handleSubmitFunds}
+                              >
+                                CONTRIBUIR
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </WrapperModal>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
@@ -125,7 +329,7 @@ class ProjectProfile extends Component {
                     <AppBar position="static">
                       <Tabs
                         value={currentTab}
-                        onChange={this.handleChange}
+                        onChange={this.handleNavChange}
                         fullWidth
                         scrollable
                       >
@@ -154,7 +358,7 @@ class ProjectProfile extends Component {
 }
 
 ProjectProfile.defaultProps = {
-  project: null,
+  project: { currentFunding: '' },
   user: null,
 };
 
@@ -167,6 +371,9 @@ ProjectProfile.propTypes = {
     introduction: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
+    fundingTarget: PropTypes.string.isRequired,
+    currency: PropTypes.string.isRequired,
+    currentFunding: PropTypes.string,
   }),
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
@@ -178,6 +385,7 @@ ProjectProfile.propTypes = {
   }).isRequired,
   onLoadProject: PropTypes.func.isRequired,
   onDeleteProject: PropTypes.func.isRequired,
+  onFundProject: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -191,6 +399,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onLoadProject: id => dispatch(actions.fetchProject(id)),
     onDeleteProject: id => dispatch(actions.deleteProject(id)),
+    onFundProject: funding => dispatch(actions.fundProject(funding)),
   };
 };
 

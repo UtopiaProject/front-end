@@ -17,6 +17,7 @@ export {
   filterProjectsByTitle,
   deleteProject,
   updateProject,
+  fundProject,
 } from './projects';
 
 export {

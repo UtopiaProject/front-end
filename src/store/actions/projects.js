@@ -72,6 +72,26 @@ export const fetchProjects = () => {
   };
 };
 
+const fundProjectFailure = (error) => {
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAILURE,
+    error,
+  };
+};
+
+export const fundProject = (funding) => {
+  return (dispatch) => {
+    projects.doFundProject(funding)
+      .then(() => {
+        history.push('/projects');
+      })
+      .catch((error) => {
+        dispatch(fundProjectFailure(error));
+      });
+  };
+};
+
+
 const updateProjectFailure = (error) => {
   return {
     type: actionTypes.UPDATE_PROJECT_FAILURE,

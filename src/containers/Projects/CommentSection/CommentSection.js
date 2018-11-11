@@ -18,6 +18,7 @@ import * as actions from '../../../store/actions';
 
 const styles = theme => ({
   commentSectionHeader: {
+    padding: '0 1rem',
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -25,7 +26,9 @@ const styles = theme => ({
     padding: '1rem',
   },
   commentButton: {
-    padding: '1rem',
+    padding: '0 1rem',
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
   comment: {
     border: '0.5px solid #ccc',

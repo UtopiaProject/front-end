@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import CurrencyCodes from 'currency-codes';
 import BeenhereOutlined from '@material-ui/icons/BeenhereOutlined';
 import {
   Paper,
@@ -149,6 +150,44 @@ class ProjectForm extends Component {
           xl: false,
         },
       },
+      currency: {
+        elementType: 'select',
+        elementConfig: {
+          label: 'Moeda',
+          options: CurrencyCodes.codes().map(code => ({ value: code, label: code })),
+        },
+        value: 'USD',
+        validation: {},
+        valid: true,
+        touched: false,
+        gridSizing: {
+          xs: 2,
+          sm: false,
+          md: false,
+          lg: false,
+          xl: false,
+        },
+      },
+      fundingTarget: {
+        elementType: 'number',
+        elementConfig: {
+          type: 'number',
+          label: 'Financiamento esperado',
+        },
+        value: 0,
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+        gridSizing: {
+          xs: 10,
+          sm: false,
+          md: false,
+          lg: false,
+          xl: false,
+        },
+      },
     },
     formIsValid: false,
     errors: [],
@@ -212,6 +251,7 @@ class ProjectForm extends Component {
     const { classes, project, serverError } = this.props;
     const { projectForm, errors, formIsValid } = this.state;
 
+    // Fill in form with project's information, if present (editing).
     const formElements = Object.keys(projectForm).map((e) => {
       const formElementIsEmpty = projectForm[e].value.length === 0;
       if (project && formElementIsEmpty) {

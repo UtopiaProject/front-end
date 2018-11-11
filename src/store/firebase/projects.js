@@ -9,7 +9,10 @@ export const doCreateProject = (project) => {
     introduction,
     description,
     createdAt,
+    fundingTarget,
+    currency,
   } = project;
+  const currentFunding = 0;
   // Get new ID
   const id = database.ref('/projects').push().key;
   // Save to database
@@ -21,6 +24,9 @@ export const doCreateProject = (project) => {
     introduction,
     description,
     createdAt,
+    fundingTarget,
+    currency,
+    currentFunding,
   });
 };
 
@@ -40,6 +46,28 @@ export const doReadProjects = (dispatch, callback) => {
   });
 };
 
+// Fund Project
+export const doFundProject = (funding) => {
+  const {
+    id,
+    author,
+    funds,
+    currency,
+    createdAt,
+  } = funding;
+  const funderId = database.ref(`projects/${id}/funders`).push().key;
+  database.ref(`projects/${id}/funders/${funderId}`).update({
+    id,
+    author,
+    funds,
+    currency,
+    createdAt,
+  });
+  return database.ref(`projects/${id}`).update({
+    currentFunding: funds,
+  });
+};
+
 // Update Project
 export const doUpdateProject = (project) => {
   const {
@@ -49,6 +77,8 @@ export const doUpdateProject = (project) => {
     picture,
     introduction,
     description,
+    fundingTarget,
+    currency,
   } = project;
   return database.ref(`projects/${id}`).update({
     id,
@@ -57,6 +87,8 @@ export const doUpdateProject = (project) => {
     picture,
     introduction,
     description,
+    fundingTarget,
+    currency,
   });
 };
 
