@@ -12,7 +12,6 @@ import {
   AppBar,
   Tabs,
   Tab,
-  LinearProgress,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
@@ -23,6 +22,7 @@ import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
 import ProjectReferences from '../ProjectReferences/ProjectReferences';
 import ProjectFeedback from '../ProjectFeedback/ProjectFeedback';
 import CommentSection from '../CommentSection/CommentSection';
+import ProjectFundingStatusBar from '../ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
 import {
   updateObject,
@@ -140,13 +140,6 @@ class ProjectProfile extends Component {
     const { openFundingModal } = this.state;
     const toggleModal = !openFundingModal;
     this.setState({ openFundingModal: toggleModal });
-  }
-
-  handleFundingStatus = () => {
-    const { project } = this.props;
-    const { currentFunding, fundingTarget } = project;
-    const fundingPercentage = fundingToInt(currentFunding) / fundingToInt(fundingTarget);
-    return fundingPercentage * 100;
   }
 
   handleInputChange = (event, inputIdentifier) => {
@@ -273,9 +266,9 @@ class ProjectProfile extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12}>
-                        <LinearProgress
-                          variant="determinate"
-                          value={this.handleFundingStatus()}
+                        <ProjectFundingStatusBar
+                          currentFunding={currentFunding}
+                          fundingTarget={fundingTarget}
                         />
                       </Grid>
                       <Grid item xs={12} className={classes.fundingButton}>
