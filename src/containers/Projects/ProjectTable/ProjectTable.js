@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import trim from '../../../helpers/Strings/Trim';
+import ProjectFundingStatusBar from '../ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
 
 const styles = {
   root: {
@@ -43,6 +43,56 @@ const styles = {
 
 const ProjectTable = (props) => {
   const { classes, projects } = props;
+
+  const projectsRows = (
+    projects.map((project) => {
+      const {
+        id,
+        author,
+        picture,
+        title,
+        introduction,
+        currentFunding,
+        fundingTarget,
+      } = project;
+      return (
+        <TableRow key={id}>
+          <TableCell>
+            <div className={classes.projectRow}>
+              <img
+                src={picture}
+                alt={trim(title, 10)}
+                className={classes.projectPic}
+              />
+              <div className={classes.projectInfo}>
+                <Typography variant="title">{trim(title, 20)}</Typography>
+                <Typography variant="body2">{trim(introduction, 50)}</Typography>
+              </div>
+            </div>
+          </TableCell>
+          <TableCell>{author}</TableCell>
+          <TableCell>
+            <ProjectFundingStatusBar
+              currentFunding={currentFunding}
+              fundingTarget={fundingTarget}
+            />
+          </TableCell>
+          <TableCell>
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              component={Link}
+              to={`/projects/${project.id}`}
+            >
+              SAIBA MAIS
+            </Button>
+          </TableCell>
+        </TableRow>
+      );
+    })
+  );
+
   return (
     <Paper className={classes.root}>
       <Table>
@@ -50,54 +100,12 @@ const ProjectTable = (props) => {
           <TableRow>
             <TableCell className={classes.projectHeader}>Sumário</TableCell>
             <TableCell className={classes.projectHeader}>Autor</TableCell>
-            <TableCell className={classes.projectHeader}>Categoria</TableCell>
+            <TableCell className={classes.projectHeader}>Financiamento</TableCell>
             <TableCell className={classes.projectHeader}>{}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {projects.map(project => (
-            <TableRow key={project.id}>
-              <TableCell>
-                <div className={classes.projectRow}>
-                  <img
-                    src={project.picture}
-                    alt={trim(project.title, 10)}
-                    className={classes.projectPic}
-                  />
-                  <div className={classes.projectInfo}>
-                    <Typography variant="title">{trim(project.title, 20)}</Typography>
-                    <Typography variant="body2">{trim(project.introduction, 50)}</Typography>
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell>{project.author}</TableCell>
-              <TableCell>
-                {
-                  project.tags
-                    ? project.tags.map(tag => (
-                      <Chip
-                        key={tag.title}
-                        variant="outlined"
-                        className={classes.projectCategories}
-                        label={tag.title}
-                      />
-                    ))
-                    : null
-                }
-              </TableCell>
-              <TableCell>
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  component={Link}
-                  to={`/projects/${project.id}`}
-                >
-                  SAIBA MAIS
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {projectsRows}
         </TableBody>
       </Table>
     </Paper>
