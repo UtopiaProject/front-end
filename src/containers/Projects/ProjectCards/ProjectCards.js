@@ -6,17 +6,32 @@ import ProjectCard from './ProjectCard/ProjectCard';
 const ProjectCards = (props) => {
   const { projects } = props;
 
-  return projects.map(project => (
-    <Grid item md={4} key={project.id}>
-      <ProjectCard
-        id={project.id}
-        picture={project.picture}
-        author={project.author}
-        introduction={project.introduction}
-        title={project.title}
-      />
-    </Grid>
-  ));
+  return projects.map((project) => {
+    const {
+      id,
+      picture,
+      author,
+      introduction,
+      title,
+      currency,
+      currentFunding,
+      fundingTarget,
+    } = project;
+    return (
+      <Grid item md={4} key={id}>
+        <ProjectCard
+          id={id}
+          picture={picture}
+          author={author}
+          introduction={introduction}
+          title={title}
+          currency={currency}
+          currentFunding={currentFunding}
+          fundingTarget={fundingTarget}
+        />
+      </Grid>
+    );
+  });
 };
 
 ProjectCards.propTypes = {

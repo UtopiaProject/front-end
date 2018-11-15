@@ -9,6 +9,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
+import ProjectFundingStatus from '../../ProjectFundingStatus/ProjectFundingStatus';
+import ProjectFundingStatusBar from '../../ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
 import trim from '../../../../helpers/Strings/Trim';
 
 const styles = {
@@ -17,6 +19,13 @@ const styles = {
   },
   pos: {
     marginBottom: 12,
+  },
+  actionArea: {
+    width: '100%',
+  },
+  button: {
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 };
 
@@ -28,10 +37,13 @@ function MediaCard(props) {
     author,
     introduction,
     title,
+    currency,
+    currentFunding,
+    fundingTarget,
   } = props;
   return (
     <Card>
-      <CardActionArea>
+      <CardActionArea className={classes.actionArea}>
         <CardMedia
           className={classes.media}
           image={picture}
@@ -47,9 +59,18 @@ function MediaCard(props) {
           <Typography component="p">
             {trim(introduction, 30)}
           </Typography>
+          <ProjectFundingStatus
+            currency={currency}
+            currentFunding={currentFunding}
+            fundingTarget={fundingTarget}
+          />
+          <ProjectFundingStatusBar
+            currentFunding={currentFunding}
+            fundingTarget={fundingTarget}
+          />
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions className={classes.button}>
         <Button
           size="small"
           color="primary"
@@ -66,6 +87,8 @@ function MediaCard(props) {
 
 MediaCard.defaultProps = {
   picture: null,
+  currentFunding: 0,
+  fundingTarget: 0,
 };
 
 MediaCard.propTypes = {
@@ -75,6 +98,9 @@ MediaCard.propTypes = {
   introduction: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  currentFunding: PropTypes.number,
+  fundingTarget: PropTypes.number,
 };
 
 export default withStyles(styles)(MediaCard);

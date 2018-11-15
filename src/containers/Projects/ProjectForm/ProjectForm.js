@@ -237,6 +237,7 @@ class ProjectForm extends Component {
     });
     projectInfo.author = user.email;
     projectInfo.createdAt = new Date().toLocaleString();
+    projectInfo.fundingTarget = parseInt(projectForm.fundingTarget, 10);
 
     // If there's a loaded project, update it
     if (project && formIsValid) {

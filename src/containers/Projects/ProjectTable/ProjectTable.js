@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import trim from '../../../helpers/Strings/Trim';
+import ProjectFundingStatus from '../ProjectFundingStatus/ProjectFundingStatus';
 import ProjectFundingStatusBar from '../ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
 
 const styles = {
@@ -52,6 +53,7 @@ const ProjectTable = (props) => {
         picture,
         title,
         introduction,
+        currency,
         currentFunding,
         fundingTarget,
       } = project;
@@ -72,6 +74,11 @@ const ProjectTable = (props) => {
           </TableCell>
           <TableCell>{author}</TableCell>
           <TableCell>
+            <ProjectFundingStatus
+              currency={currency}
+              currentFunding={currentFunding}
+              fundingTarget={fundingTarget}
+            />
             <ProjectFundingStatusBar
               currentFunding={currentFunding}
               fundingTarget={fundingTarget}

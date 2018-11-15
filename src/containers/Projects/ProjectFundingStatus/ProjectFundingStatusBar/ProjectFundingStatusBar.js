@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LinearProgress } from '@material-ui/core';
 
-const fundingToInt = (funding) => {
-  return parseInt(funding, 10) || 0;
-};
-
 const handleFundingStatus = (currentFunding, fundingTarget) => {
-  const fundingPercentage = fundingToInt(currentFunding) / fundingToInt(fundingTarget);
+  // return 0 if percentage is NaN
+  const fundingPercentage = (currentFunding / fundingTarget) || 0;
   return fundingPercentage * 100;
 };
 
@@ -21,9 +18,14 @@ const ProjectFundingStatusBar = (props) => {
   );
 };
 
+ProjectFundingStatusBar.defaultProps = {
+  currentFunding: 0,
+  fundingTarget: 0,
+};
+
 ProjectFundingStatusBar.propTypes = {
-  currentFunding: PropTypes.string.isRequired,
-  fundingTarget: PropTypes.string.isRequired,
+  currentFunding: PropTypes.number,
+  fundingTarget: PropTypes.number,
 };
 
 export default ProjectFundingStatusBar;

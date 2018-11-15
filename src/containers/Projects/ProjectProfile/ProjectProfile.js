@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Dinero from 'dinero.js';
 import CurrencyCodes from 'currency-codes';
+import { Link } from 'react-router-dom';
 import {
   Paper,
   Typography,
@@ -13,7 +13,6 @@ import {
   Tabs,
   Tab,
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
 import WrapperModal from '../../../components/Modal/WrapperModal';
 import Input from '../../../components/Input/Input';
@@ -22,25 +21,11 @@ import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
 import ProjectReferences from '../ProjectReferences/ProjectReferences';
 import ProjectFeedback from '../ProjectFeedback/ProjectFeedback';
 import CommentSection from '../CommentSection/CommentSection';
+import ProjectFundingStatus from '../ProjectFundingStatus/ProjectFundingStatus';
 import ProjectFundingStatusBar from '../ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
-import {
-  updateObject,
-  checkValidity,
-} from '../../../helpers/Validation/Validation';
+import { updateObject, checkValidity } from '../../../helpers/Validation/Validation';
 import * as actions from '../../../store/actions';
-
-const fundingToInt = (funding) => {
-  return parseInt(funding, 10) || 0;
-};
-
-const formatFunding = (funding, currency) => {
-  const fundingIntValue = fundingToInt(funding);
-  const dineroFunding = Dinero({ amount: fundingIntValue, currency });
-  const formattedDineroFunding = dineroFunding.toFormat('$0,0');
-  return formattedDineroFunding;
-};
-
 
 const styles = () => ({
   card: {
@@ -215,10 +200,6 @@ class ProjectProfile extends Component {
       currentFunding,
     } = project;
 
-    const formattedCurrentFunding = formatFunding(currentFunding, currency);
-    const formattedFundingTarget = formatFunding(fundingTarget, currency);
-    const fundingStatus = `${currency} ${formattedCurrentFunding}/${formattedFundingTarget}`;
-
     const menuOptions = [
       <Button component={Link} to={`/projects/${id}/edit`}>EDIT</Button>,
       <Button onClick={() => this.handleDeleteProject(id)}>DELETE</Button>,
@@ -261,9 +242,11 @@ class ProjectProfile extends Component {
                         <Typography variant="title">
                           Financiamento:
                         </Typography>
-                        <div>
-                          {fundingStatus}
-                        </div>
+                        <ProjectFundingStatus
+                          currency={currency}
+                          currentFunding={currentFunding}
+                          fundingTarget={fundingTarget}
+                        />
                       </Grid>
                       <Grid item xs={12}>
                         <ProjectFundingStatusBar
