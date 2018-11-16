@@ -9,6 +9,150 @@ export const filterProjectsByTitle = (title) => {
   };
 };
 
+const fundProjectFailure = (error) => {
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAILURE,
+    error,
+  };
+};
+
+export const fundProject = (funding) => {
+  return (dispatch) => {
+    projects.fundProject(funding)
+      .then(() => {
+        history.push('/projects');
+      })
+      .catch((error) => {
+        dispatch(fundProjectFailure(error));
+      });
+  };
+};
+
+const approveProjectFailure = (error) => {
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAILURE,
+    error,
+  };
+};
+
+export const approveProject = (approver) => {
+  return (dispatch) => {
+    projects.approveProject(approver)
+      .then(() => {
+        history.push('/projects');
+      })
+      .catch((error) => {
+        dispatch(approveProjectFailure(error));
+      });
+  };
+};
+
+const disapproveProjectFailure = (error) => {
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAILURE,
+    error,
+  };
+};
+
+export const disapproveProject = (disapprover) => {
+  return (dispatch) => {
+    projects.disapproveProject(disapprover)
+      .then(() => {
+        history.push('/projects');
+      })
+      .catch((error) => {
+        dispatch(disapproveProjectFailure(error));
+      });
+  };
+};
+
+const reapproveProjectFailure = (error) => {
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAILURE,
+    error,
+  };
+};
+
+export const reapproveProject = (reapprover) => {
+  return (dispatch) => {
+    projects.reapproveProject(reapprover)
+      .then(() => {
+        history.push('/projects');
+      })
+      .catch((error) => {
+        dispatch(reapproveProjectFailure(error));
+      });
+  };
+};
+
+const rejectProjectFailure = (error) => {
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAILURE,
+    error,
+  };
+};
+
+export const rejectProject = (rejector) => {
+  return (dispatch) => {
+    projects.rejectProject(rejector)
+      .then(() => {
+        history.push('/projects');
+      })
+      .catch((error) => {
+        dispatch(rejectProjectFailure(error));
+      });
+  };
+};
+
+const advanceProjectStepSuccess = (project) => {
+  return {
+    type: actionTypes.ADVANCE_PROJECT_STEP_SUCCESS,
+    project,
+  };
+};
+
+const advanceProjectStepFailure = (error) => {
+  return {
+    type: actionTypes.ADVANCE_PROJECT_STEP_FAILURE,
+    error,
+  };
+};
+
+export const advanceProjectStep = (project) => {
+  return (dispatch) => {
+    projects.advanceProjectStep(project)
+      .then((snapshot) => {
+        dispatch(advanceProjectStepSuccess(snapshot.val()));
+        history.push('/projects');
+      })
+      .catch(error => dispatch(advanceProjectStepFailure(error)));
+  };
+};
+
+const resetProjectFundingSuccess = () => {
+  return {
+    type: actionTypes.RESET_PROJECT_FUNDING_SUCCESS,
+  };
+};
+
+const resetProjectFundingFailure = (error) => {
+  return {
+    type: actionTypes.RESET_PROJECT_FUNDING_FAILURE,
+    error,
+  };
+};
+
+export const resetProjectFunding = (project) => {
+  return (dispatch) => {
+    projects.resetProjectFunding(project)
+      .then(() => {
+        dispatch(resetProjectFundingSuccess());
+        history.push('/projects');
+      })
+      .catch(error => dispatch(resetProjectFundingFailure(error)));
+  };
+};
+
 const createProjectFailure = (error) => {
   return {
     type: actionTypes.CREATE_PROJECT_FAILURE,
@@ -18,7 +162,7 @@ const createProjectFailure = (error) => {
 
 export const createProject = (project) => {
   return (dispatch) => {
-    projects.doCreateProject(project)
+    projects.createProject(project)
       .then(() => {
         history.push('/projects');
       })
@@ -44,7 +188,7 @@ const fetchProjectFailure = (error) => {
 
 export const fetchProject = (id) => {
   return (dispatch) => {
-    projects.doReadProject(id)
+    projects.getProjectById(id)
       .then((snapshot) => {
         const projectValue = Object.values(snapshot.val())[0];
         dispatch(fetchProjectSuccess(projectValue));
@@ -68,29 +212,9 @@ const fetchProjectsSuccess = (snapshot) => {
 
 export const fetchProjects = () => {
   return (dispatch) => {
-    projects.doReadProjects(dispatch, fetchProjectsSuccess);
+    projects.getProjects(dispatch, fetchProjectsSuccess);
   };
 };
-
-const fundProjectFailure = (error) => {
-  return {
-    type: actionTypes.UPDATE_PROJECT_FAILURE,
-    error,
-  };
-};
-
-export const fundProject = (funding) => {
-  return (dispatch) => {
-    projects.doFundProject(funding)
-      .then(() => {
-        history.push('/projects');
-      })
-      .catch((error) => {
-        dispatch(fundProjectFailure(error));
-      });
-  };
-};
-
 
 const updateProjectFailure = (error) => {
   return {
@@ -101,7 +225,7 @@ const updateProjectFailure = (error) => {
 
 export const updateProject = (project) => {
   return (dispatch) => {
-    projects.doUpdateProject(project)
+    projects.updateProject(project)
       .then(() => {
         history.push(`/projects/${project.id}`);
       })
@@ -126,7 +250,7 @@ const deleteProjectFailure = (error) => {
 
 export const deleteProject = (id) => {
   return (dispatch) => {
-    projects.doDeleteProject(id)
+    projects.deleteProject(id)
       .then(() => {
         dispatch(deleteProjectSuccess());
         history.push('/projects');

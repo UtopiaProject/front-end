@@ -19,7 +19,7 @@ const createUserFailure = (error) => {
 
 export const createUser = (user) => {
   return (dispatch) => {
-    users.doCreateUser(user)
+    users.createUser(user)
       .then(() => {
         dispatch(actions.authenticate(user));
         history.push('/projects');
@@ -46,7 +46,7 @@ const fetchUserFailure = (error) => {
 
 export const fetchUser = (userEmail) => {
   return (dispatch) => {
-    users.doReadUser(userEmail)
+    users.readUser(userEmail)
       .then((snapshot) => {
         const userValue = Object.values(snapshot.val())[0];
         dispatch(fetchUserSuccess(userValue));
@@ -66,6 +66,6 @@ const fetchUsersSuccess = (userList) => {
 
 export const fetchUsers = () => {
   return (dispatch) => {
-    users.doReadUsers(dispatch, fetchUsersSuccess);
+    users.readUsers(dispatch, fetchUsersSuccess);
   };
 };

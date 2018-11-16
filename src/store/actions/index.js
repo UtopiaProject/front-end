@@ -18,6 +18,12 @@ export {
   deleteProject,
   updateProject,
   fundProject,
+  approveProject,
+  disapproveProject,
+  reapproveProject,
+  rejectProject,
+  advanceProjectStep,
+  resetProjectFunding,
 } from './projects';
 
 export {

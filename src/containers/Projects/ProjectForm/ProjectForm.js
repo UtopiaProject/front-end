@@ -14,10 +14,8 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
-import {
-  updateObject,
-  checkValidity,
-} from '../../../helpers/Validation/Validation';
+import { updateObject, checkValidity } from '../../../helpers/Validation/Validation';
+import ProjectStep, { StepDescription } from '../ProjectStep/ProjectStep';
 import * as actions from '../../../store/actions';
 import Input from '../../../components/Input/Input';
 
@@ -34,6 +32,12 @@ const styles = theme => ({
     },
     height: '72.9vh',
   },
+  header: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   paper: {
     marginTop: theme.spacing.unit * 8,
     display: 'flex',
@@ -49,14 +53,6 @@ const styles = theme => ({
   form: {
     width: '100%', // Fix IE11 issue.
     marginTop: theme.spacing.unit,
-  },
-  signIn: {
-    marginTop: theme.spacing.unit * 3,
-    background: 'green',
-  },
-  signUp: {
-    marginTop: theme.spacing.unit * 3,
-    background: 'blue',
   },
   error: {
     color: 'red',
@@ -237,11 +233,13 @@ class ProjectForm extends Component {
     });
     projectInfo.author = user.email;
     projectInfo.createdAt = new Date().toLocaleString();
-    projectInfo.fundingTarget = parseInt(projectForm.fundingTarget, 10);
+    projectInfo.fundingTarget = parseInt(projectForm.fundingTarget.value, 10) * 100;
+    projectInfo.currentStep = 2;
 
     // If there's a loaded project, update it
     if (project && formIsValid) {
       projectInfo.id = project.id;
+      projectInfo.currentStep = project.currentStep;
       onUpdateProject(projectInfo);
       return;
     }
@@ -304,26 +302,33 @@ class ProjectForm extends Component {
       );
     }
 
-    const formTitle = project ? 'Editar Projeto' : 'Cadastrar Projeto';
-    const formButton = project ? 'ATUALIZAR' : 'CADASTRAR';
+    const formTitle = project ? 'Editar Projeto' : 'Propor Projeto';
+    const formButton = project ? 'ATUALIZAR' : 'PROPOR';
+    const projectStep = project ? project.currentStep : 1;
     return (
       <Fragment>
         <main className={classes.layout}>
           <Paper className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <BeenhereOutlined />
-            </Avatar>
-            <Typography variant="headline">
-              {formTitle}
-            </Typography>
-            <Grid container spacing={24}>
+            <Grid container spacing={32}>
+              <Grid item xs={12} className={classes.header}>
+                <Avatar className={classes.avatar}>
+                  <BeenhereOutlined />
+                </Avatar>
+                <Typography variant="headline">
+                  {formTitle}
+                </Typography>
+              </Grid>
               <Grid item xs={12}>
+                <StepDescription currentStep={projectStep} />
+                <ProjectStep currentStep={projectStep} />
                 {errorsList}
                 {serverErrorFound}
               </Grid>
-            </Grid>
-            <Grid container spacing={24}>
-              {form}
+              <Grid item xs={12}>
+                <Grid container spacing={24}>
+                  {form}
+                </Grid>
+              </Grid>
               <Grid item xs={12}>
                 <Button
                   disabled={!formIsValid}

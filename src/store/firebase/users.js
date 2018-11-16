@@ -2,7 +2,7 @@ import { database, auth } from './firebase';
 import * as authentication from './auth';
 
 // Create User
-export const doCreateUser = (user) => {
+export const createUser = (user) => {
   const {
     name,
     birthdate,
@@ -36,19 +36,19 @@ export const doCreateUser = (user) => {
 };
 
 // Read User
-export const doReadUser = (email) => {
+export const readUser = (email) => {
   return database.ref('users/').orderByChild('email').equalTo(email).once('value');
 };
 
 // Read Users
-export const doReadUsers = (dispatch, callback) => {
+export const readUsers = (dispatch, callback) => {
   return database.ref('users/').on('value', (snapshot) => {
     dispatch(callback(Object.values(snapshot.val())));
   });
 };
 
 // Update User
-export const doUpdateUser = (user, uid) => {
+export const updateUser = (user, uid) => {
   const {
     name,
     birthdate,
@@ -74,6 +74,6 @@ export const doUpdateUser = (user, uid) => {
 };
 
 // Delete User
-export const doDeleteUser = (uid) => {
+export const deleteUser = (uid) => {
   return database.ref(`users/${uid}`).remove();
 };

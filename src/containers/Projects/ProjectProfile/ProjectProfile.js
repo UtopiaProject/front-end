@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CurrencyCodes from 'currency-codes';
 import { Link } from 'react-router-dom';
 import {
   Paper,
@@ -14,17 +13,16 @@ import {
   Tab,
 } from '@material-ui/core';
 import VerticalMenu from '../../../components/VerticalMenu/VerticalMenu';
-import WrapperModal from '../../../components/Modal/WrapperModal';
-import Input from '../../../components/Input/Input';
 import ProjectNews from '../ProjectNews/ProjectNews';
 import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
 import ProjectReferences from '../ProjectReferences/ProjectReferences';
 import ProjectFeedback from '../ProjectFeedback/ProjectFeedback';
 import CommentSection from '../CommentSection/CommentSection';
-import ProjectFundingStatus from '../ProjectFundingStatus/ProjectFundingStatus';
-import ProjectFundingStatusBar from '../ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
+import ProjectStep, { StepDescription } from '../ProjectStep/ProjectStep';
+import ProjectFunding from '../ProjectFunding/ProjectFunding';
+import ProjectVoting from '../ProjectVoting/ProjectVoting';
 import defaultProjectPicture from '../../../assets/images/defaultProject.png';
-import { updateObject, checkValidity } from '../../../helpers/Validation/Validation';
+import * as steps from '../../../helpers/Steps/Steps';
 import * as actions from '../../../store/actions';
 
 const styles = () => ({
@@ -42,74 +40,22 @@ const styles = () => ({
     height: '100%',
     width: '100%',
   },
-  fundingTarget: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  fundingButton: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  fundingModal: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  fundingFormFields: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
 });
 
 class ProjectProfile extends Component {
   state = {
     currentTab: 0,
-    openFundingModal: false,
-    formIsValid: false,
-    fundingForm: {
-      currency: {
-        elementType: 'select',
-        elementConfig: {
-          label: 'Moeda',
-          options: CurrencyCodes.codes().map(code => ({ value: code, label: code })),
-        },
-        value: 'USD',
-        validation: {},
-        valid: true,
-        touched: false,
-        gridSizing: {
-          xs: 2,
-          sm: false,
-          md: false,
-          lg: false,
-          xl: false,
-        },
-      },
-      currentFunding: {
-        elementType: 'number',
-        elementConfig: {
-          type: 'number',
-          label: 'Quantia para contribuir',
-        },
-        value: 0,
-        validation: {
-          required: true,
-        },
-        valid: false,
-        touched: false,
-        gridSizing: {
-          xs: 9,
-          sm: false,
-          md: false,
-          lg: false,
-          xl: false,
-        },
-      },
-    },
   };
 
   componentDidMount() {
-    const { onLoadProject, match: { params: { id } } } = this.props;
+    const {
+      onLoadProject,
+      onLoadCurrentUser,
+      match: { params: { id } },
+      authUser,
+    } = this.props;
     onLoadProject(id);
+    if (authUser) onLoadCurrentUser(authUser.email);
   }
 
   handleDeleteProject = (id) => {
@@ -121,70 +67,10 @@ class ProjectProfile extends Component {
     this.setState({ currentTab: value });
   };
 
-  handleToggleModal = () => {
-    const { openFundingModal } = this.state;
-    const toggleModal = !openFundingModal;
-    this.setState({ openFundingModal: toggleModal });
-  }
-
-  handleInputChange = (event, inputIdentifier) => {
-    const { fundingForm } = this.state;
-    const updatedFormElement = updateObject(fundingForm[inputIdentifier], {
-      value: event.target.value,
-      valid: checkValidity(event.target.value, fundingForm[inputIdentifier].validation),
-      touched: true,
-    });
-
-    const updatedFundingForm = updateObject(fundingForm, {
-      [inputIdentifier]: updatedFormElement,
-    });
-
-    let formIsValid = true;
-    Object.keys(updatedFundingForm).forEach((input) => {
-      formIsValid = updatedFundingForm[input].valid && formIsValid;
-    });
-
-    this.setState({ fundingForm: updatedFundingForm, formIsValid });
-  };
-
-  handleSubmitFunds = () => {
-    const { fundingForm, formIsValid } = this.state;
-    const {
-      project,
-      user,
-      onFundProject,
-    } = this.props;
-
-    const projectFunding = project.currentFunding || 0;
-    const userFunds = fundingForm.currentFunding.value * 100;
-    const newFundingTotal = projectFunding + userFunds;
-    const fundingInfo = {};
-    fundingInfo.id = project.id;
-    fundingInfo.author = user.email;
-    fundingInfo.funds = newFundingTotal;
-    fundingInfo.currency = fundingForm.currency.value;
-    fundingInfo.createdAt = new Date().toLocaleString();
-    if (formIsValid) onFundProject(fundingInfo);
-  };
 
   render() {
-    const { classes, project } = this.props;
-    const { currentTab, openFundingModal, fundingForm } = this.state;
-
-    const formElements = Object.keys(fundingForm).map(e => (
-      {
-        id: e,
-        config: fundingForm[e],
-      }
-    ));
-
-    const form = formElements.map(e => (
-      <Input
-        key={e.id}
-        element={e.config}
-        changed={event => this.handleInputChange(event, e.id)}
-      />
-    ));
+    const { classes, project, authUser } = this.props;
+    const { currentTab } = this.state;
 
     if (!project) { return null; }
     const {
@@ -195,21 +81,38 @@ class ProjectProfile extends Component {
       introduction,
       description,
       createdAt,
-      fundingTarget,
-      currency,
-      currentFunding,
+      currentStep,
     } = project;
 
     const menuOptions = [
-      <Button component={Link} to={`/projects/${id}/edit`}>EDIT</Button>,
-      <Button onClick={() => this.handleDeleteProject(id)}>DELETE</Button>,
+      <Button component={Link} to={`/projects/${id}/edit`}>EDITAR</Button>,
+      <Button onClick={() => this.handleDeleteProject(id)}>DELETAR</Button>,
     ];
+
+    const prototypingStep = currentStep === steps.PROTOTYPING_STEP;
+    const productionStep = currentStep === steps.PRODUCTION_STEP;
+
+    let interactionSection;
+    const fundingStep = prototypingStep || productionStep;
+    if (fundingStep && authUser) {
+      interactionSection = (
+        <ProjectFunding project={project} />
+      );
+    } else if (authUser) {
+      interactionSection = (
+        <ProjectVoting project={project} authUser={authUser} />
+      );
+    }
 
     return (
       <Grid container justify="center">
         <Grid item xs={12} sm={7}>
           <Paper className={classes.card}>
             <Grid container spacing={32}>
+              <Grid item xs={12}>
+                <StepDescription currentStep={currentStep} />
+                <ProjectStep currentStep={currentStep} />
+              </Grid>
               <Grid item xs={12} sm={4} className={classes.projectHeader}>
                 <img
                   src={picture || defaultProjectPicture}
@@ -218,7 +121,7 @@ class ProjectProfile extends Component {
                 />
               </Grid>
               <Grid item xs={12} sm={8}>
-                <Grid container>
+                <Grid container spacing={16}>
                   <Grid item xs={12} className={classes.projectHeader}>
                     <Typography variant="title">
                       {title}
@@ -235,61 +138,7 @@ class ProjectProfile extends Component {
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <br />
-                    <br />
-                    <Grid container spacing={16}>
-                      <Grid item xs={12} className={classes.fundingTarget}>
-                        <Typography variant="title">
-                          Financiamento:
-                        </Typography>
-                        <ProjectFundingStatus
-                          currency={currency}
-                          currentFunding={currentFunding}
-                          fundingTarget={fundingTarget}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <ProjectFundingStatusBar
-                          currentFunding={currentFunding}
-                          fundingTarget={fundingTarget}
-                        />
-                      </Grid>
-                      <Grid item xs={12} className={classes.fundingButton}>
-                        <Button
-                          variant="raised"
-                          color="secondary"
-                          onClick={this.handleToggleModal}
-                        >
-                          CONTRIBUIR
-                        </Button>
-                        <WrapperModal
-                          title="funding section"
-                          open={openFundingModal}
-                          closed={this.handleToggleModal}
-                          className={classes.fundingModal}
-                        >
-                          <Grid container spacing={16}>
-                            <Grid item xs={12}>
-                              <Typography variant="title">
-                                Com quanto você quer contribuir?
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={12} className={classes.fundingFormFields}>
-                              {form}
-                            </Grid>
-                            <Grid item xs={12} className={classes.fundingButton}>
-                              <Button
-                                variant="raised"
-                                color="secondary"
-                                onClick={this.handleSubmitFunds}
-                              >
-                                CONTRIBUIR
-                              </Button>
-                            </Grid>
-                          </Grid>
-                        </WrapperModal>
-                      </Grid>
-                    </Grid>
+                    {interactionSection}
                   </Grid>
                 </Grid>
               </Grid>
@@ -335,7 +184,8 @@ class ProjectProfile extends Component {
 
 ProjectProfile.defaultProps = {
   project: { currentFunding: '' },
-  user: null,
+  authUser: null,
+  currentUser: null,
 };
 
 ProjectProfile.propTypes = {
@@ -347,13 +197,14 @@ ProjectProfile.propTypes = {
     introduction: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    fundingTarget: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
-    currentFunding: PropTypes.string,
+    currentFunding: PropTypes.number,
+    fundingTarget: PropTypes.number.isRequired,
   }),
-  user: PropTypes.shape({
+  authUser: PropTypes.shape({
     email: PropTypes.string.isRequired,
   }),
+  currentUser: PropTypes.shape({}),
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -361,13 +212,14 @@ ProjectProfile.propTypes = {
   }).isRequired,
   onLoadProject: PropTypes.func.isRequired,
   onDeleteProject: PropTypes.func.isRequired,
-  onFundProject: PropTypes.func.isRequired,
+  onLoadCurrentUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     project: state.projects.project,
-    user: state.auth.user,
+    authUser: state.auth.user,
+    currentUser: state.users.user,
   };
 };
 
@@ -375,7 +227,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onLoadProject: id => dispatch(actions.fetchProject(id)),
     onDeleteProject: id => dispatch(actions.deleteProject(id)),
-    onFundProject: funding => dispatch(actions.fundProject(funding)),
+    onLoadCurrentUser: email => dispatch(actions.fetchUser(email)),
   };
 };
 

@@ -1,7 +1,6 @@
 import { database } from './firebase';
 
-// Create Project
-export const doCreateProject = (project) => {
+export const createProject = (project) => {
   const {
     author,
     title,
@@ -30,8 +29,7 @@ export const doCreateProject = (project) => {
   });
 };
 
-// Read Project
-export const doReadProject = (id) => {
+export const getProjectById = (id) => {
   return database
     .ref('/projects/')
     .orderByChild('id')
@@ -39,15 +37,13 @@ export const doReadProject = (id) => {
     .once('value');
 };
 
-// Read Projects
-export const doReadProjects = (dispatch, callback) => {
+export const getProjects = (dispatch, callback) => {
   return database.ref('/projects').on('value', (snapshot) => {
     dispatch(callback(snapshot));
   });
 };
 
-// Fund Project
-export const doFundProject = (funding) => {
+export const fundProject = (funding) => {
   const {
     id,
     author,
@@ -68,8 +64,81 @@ export const doFundProject = (funding) => {
   });
 };
 
-// Update Project
-export const doUpdateProject = (project) => {
+export const resetProjectFunding = (project) => {
+  const {
+    id,
+  } = project;
+  return database.ref(`projects/${id}`).update({
+    currentFunding: 0,
+  });
+};
+
+export const approveProject = (approver) => {
+  const {
+    id,
+    author,
+    createdAt,
+  } = approver;
+  const approverId = database.ref(`projects/${id}/approvers`).push().key;
+  return database.ref(`projects/${id}/approvers/${approverId}`).update({
+    id,
+    author,
+    createdAt,
+  });
+};
+
+export const disapproveProject = (disapprover) => {
+  const {
+    id,
+    author,
+    createdAt,
+  } = disapprover;
+  const disapproverId = database.ref(`projects/${id}/disapprovers`).push().key;
+  return database.ref(`projects/${id}/disapprovers/${disapproverId}`).update({
+    id,
+    author,
+    createdAt,
+  });
+};
+
+export const reapproveProject = (reapprover) => {
+  const {
+    id,
+    author,
+    createdAt,
+  } = reapprover;
+  const reapproverId = database.ref(`projects/${id}/reapprovers`).push().key;
+  return database.ref(`projects/${id}/reapprovers/${reapproverId}`).update({
+    id,
+    author,
+    createdAt,
+  });
+};
+
+export const rejectProject = (rejectors) => {
+  const {
+    id,
+    author,
+    createdAt,
+  } = rejectors;
+  const rejectorsId = database.ref(`projects/${id}/rejectors`).push().key;
+  return database.ref(`projects/${id}/rejectors/${rejectorsId}`).update({
+    id,
+    author,
+    createdAt,
+  });
+};
+
+export const advanceProjectStep = (project) => {
+  const {
+    id,
+  } = project;
+  return database
+    .ref(`/projects/${id}/currentStep`)
+    .transaction(currentStep => (currentStep + 1));
+};
+
+export const updateProject = (project) => {
   const {
     id,
     author,
@@ -80,6 +149,7 @@ export const doUpdateProject = (project) => {
     fundingTarget,
     currency,
   } = project;
+
   return database.ref(`projects/${id}`).update({
     id,
     author,
@@ -92,7 +162,6 @@ export const doUpdateProject = (project) => {
   });
 };
 
-// Delete Project
-export const doDeleteProject = (id) => {
+export const deleteProject = (id) => {
   return database.ref(`projects/${id}`).remove();
 };

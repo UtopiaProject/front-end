@@ -11,8 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import trim from '../../../helpers/Strings/Trim';
-import ProjectFundingStatus from '../ProjectFundingStatus/ProjectFundingStatus';
-import ProjectFundingStatusBar from '../ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
+import ProjectFundingStatus from '../ProjectFunding/ProjectFundingStatus/ProjectFundingStatus';
+import ProjectFundingStatusBar from '../ProjectFunding/ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
 
 const styles = {
   root: {
