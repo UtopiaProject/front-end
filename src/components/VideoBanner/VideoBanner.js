@@ -12,6 +12,9 @@ const styles = theme => ({
     height: '100%',
     width: '100%',
   },
+  videoBlock: {
+    background: 'rgba(0, 113, 38, 0.52)',
+  },
   coverTextStyle: {
     position: 'absolute',
     width: '100%',
@@ -33,7 +36,7 @@ const styles = theme => ({
 const VideoBanner = (props) => {
   const { classes } = props;
   return (
-    <div className="VideoBlock">
+    <div className={classes.videoBlock}>
       <video className={classes.videoStyle} src={utopiaBanner} autoPlay loop muted />
       <div className={classes.coverTextStyle}>
         <h2>UTOPIA</h2>
