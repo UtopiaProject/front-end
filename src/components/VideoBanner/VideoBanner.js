@@ -13,7 +13,7 @@ const styles = theme => ({
     width: '100%',
   },
   videoBlock: {
-    background: 'rgba(0, 113, 38, 0.52)',
+    background: 'rgba(53, 122, 56, 0.52)',
   },
   coverTextStyle: {
     position: 'absolute',

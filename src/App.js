@@ -1,7 +1,7 @@
 import React from 'react';
 import 'typeface-roboto';
-
 import { Router, Switch, Route } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import history from './helpers/Router/History/History';
 import TopBar from './components/TopBar/TopBar';
 import Homepage from './containers/Homepage/Homepage';
@@ -13,23 +13,32 @@ import ProjectForm from './containers/Projects/ProjectForm/ProjectForm';
 import Users from './containers/Users/Users';
 import UserProfile from './containers/Users/UserProfile/UserProfile';
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#4caf50' },
+    secondary: { main: '#E53935' },
+  },
+});
+
 const App = () => (
-  <Router history={history}>
-    <div>
-      <TopBar />
-      <Switch>
-        <Route path="/" exact component={Homepage} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signup" component={UserSignUp} />
-        <Route path="/projects" exact component={Projects} />
-        <Route path="/projects/:id/edit" component={ProjectForm} />
-        <Route path="/projects/new" exact component={ProjectForm} />
-        <Route path="/projects/:id" component={ProjectProfile} />
-        <Route path="/users" exact component={Users} />
-        <Route path="/users/:email" component={UserProfile} />
-      </Switch>
-    </div>
-  </Router>
+  <MuiThemeProvider theme={theme}>
+    <Router history={history}>
+      <div>
+        <TopBar />
+        <Switch>
+          <Route path="/" exact component={Homepage} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/signup" component={UserSignUp} />
+          <Route path="/projects" exact component={Projects} />
+          <Route path="/projects/:id/edit" component={ProjectForm} />
+          <Route path="/projects/new" exact component={ProjectForm} />
+          <Route path="/projects/:id" component={ProjectProfile} />
+          <Route path="/users" exact component={Users} />
+          <Route path="/users/:email" component={UserProfile} />
+        </Switch>
+      </div>
+    </Router>
+  </MuiThemeProvider>
 );
 
 export default App;

@@ -45,11 +45,11 @@ const styles = theme => ({
   },
   signIn: {
     marginTop: theme.spacing.unit * 3,
-    background: 'green',
+    background: theme.palette.primary.light,
   },
   signUp: {
     marginTop: theme.spacing.unit * 3,
-    background: 'blue',
+    background: theme.palette.primary.dark,
   },
   error: {
     color: 'red',

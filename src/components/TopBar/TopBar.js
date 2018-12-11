@@ -14,7 +14,7 @@ import emailToGravatar from '../../helpers/Gravatar/Gravatar';
 import MenuDrawer from '../MenuDrawer/MenuDrawer';
 import * as actions from '../../store/actions';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
@@ -30,7 +30,8 @@ const styles = {
     color: 'black',
   },
   button: {
-    background: 'green',
+    background: theme.palette.primary.dark,
+    color: 'white',
   },
   utopiaLogo: {
     fontFamily: "'Baloo', cursive !important",
@@ -46,8 +47,10 @@ const styles = {
   },
   projectButton: {
     marginRight: '2rem',
+    background: theme.palette.primary.main,
+    color: 'white',
   },
-};
+});
 
 class TopBar extends Component {
   state = {
@@ -75,7 +78,6 @@ class TopBar extends Component {
       userInfo = (
         <div className={classes.userInfo}>
           <Button
-            color="secondary"
             variant="contained"
             component={Link}
             to="/projects/new"
@@ -102,7 +104,6 @@ class TopBar extends Component {
       userInfo = (
         <Button
           variant="contained"
-          color="primary"
           className={classes.button}
           component={Link}
           to="/signin"

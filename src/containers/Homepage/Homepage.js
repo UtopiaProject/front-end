@@ -7,7 +7,7 @@ import CoreValues from '../../components/CoreValues/CoreValues';
 import CoreSteps from '../../components/CoreSteps/CoreSteps';
 import CoreCategories from '../../components/CoreCategories/CoreCategories';
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
     overflowX: 'hidden',
@@ -17,7 +17,7 @@ const styles = () => ({
   sectionHeader: {
     fontSize: '3rem',
     textAlign: 'center',
-    color: 'green',
+    color: theme.palette.primary.dark,
   },
   coreSteps: {
     padding: '2rem',

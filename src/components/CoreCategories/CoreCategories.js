@@ -12,11 +12,11 @@ import sanitationPic from '../../assets/images/sanitation.jpg';
 import transportPic from '../../assets/images/transport.jpg';
 import CoreCategory from './CoreCategory/CoreCategory';
 
-const styles = () => ({
+const styles = theme => ({
   sectionHeader: {
     fontSize: '3rem',
     textAlign: 'center',
-    color: 'green',
+    color: theme.palette.primary.dark,
   },
 });
 

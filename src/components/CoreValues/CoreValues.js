@@ -32,7 +32,7 @@ const styles = theme => ({
   icon: {
     margin: theme.spacing.unit,
     fontSize: 75,
-    color: 'green',
+    color: theme.palette.primary.dark,
     [theme.breakpoints.up('md')]: {
       fontSize: 100,
     },
@@ -40,7 +40,7 @@ const styles = theme => ({
   sectionHeader: {
     fontSize: '2.5rem',
     textAlign: 'center',
-    color: 'green',
+    color: theme.palette.primary.dark,
     [theme.breakpoints.up('md')]: {
       fontSize: '3rem',
     },
