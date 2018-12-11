@@ -16,8 +16,12 @@ const styles = () => ({
     justifyContent: 'flex-end',
     padding: '1rem',
   },
+
   referencesContainer: {
     padding: '1rem',
+    display: 'flex',
+    flexWrap: 'wrap',
+    wordBreak: 'break-all',
   },
 });
 

@@ -19,14 +19,16 @@ export const authenticateFailure = (error) => {
 const saveToLocalStorage = (user) => {
   return (dispatch) => {
     localStorage.setItem('user', user.email);
-    return dispatch(authenticateSuccess(user));
+    dispatch(authenticateSuccess(user));
   };
 };
 
 const removeFromLocalStorage = (error) => {
   return (dispatch) => {
     localStorage.removeItem('user');
-    return dispatch(authenticateFailure(error));
+    console.log('[actions authentication removeFromLocalStorage:29] error', error);
+    
+    dispatch(authenticateFailure(error));
   };
 };
 

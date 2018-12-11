@@ -10,8 +10,9 @@ export const createProject = (project) => {
     createdAt,
     fundingTarget,
     currency,
+    currentFunding,
+    currentStep,
   } = project;
-  const currentFunding = 0;
   // Get new ID
   const id = database.ref('/projects').push().key;
   // Save to database
@@ -26,6 +27,7 @@ export const createProject = (project) => {
     fundingTarget,
     currency,
     currentFunding,
+    currentStep,
   });
 };
 

@@ -67,7 +67,6 @@ class ProjectProfile extends Component {
     this.setState({ currentTab: value });
   };
 
-
   render() {
     const { classes, project, authUser } = this.props;
     const { currentTab } = this.state;

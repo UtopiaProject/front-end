@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import trim from '../../../helpers/Strings/Trim';
+import defaultProjectPicture from '../../../assets/images/defaultProject.png';
 import ProjectFundingStatus from '../ProjectFunding/ProjectFundingStatus/ProjectFundingStatus';
 import ProjectFundingStatusBar from '../ProjectFunding/ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
 
@@ -62,7 +63,7 @@ const ProjectTable = (props) => {
           <TableCell>
             <div className={classes.projectRow}>
               <img
-                src={picture}
+                src={picture || defaultProjectPicture}
                 alt={trim(title, 10)}
                 className={classes.projectPic}
               />

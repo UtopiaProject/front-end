@@ -93,8 +93,7 @@ class SignIn extends Component {
     if (error) {
       errorMessage = (
         <Typography className={classes.error}>
-          Error:
-          {error}
+          {error.message}
         </Typography>
       );
     }
@@ -165,7 +164,10 @@ SignIn.defaultProps = {
 
 SignIn.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  error: PropTypes.string,
+  error: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+  }),
   onAuthenticate: PropTypes.func.isRequired,
 };
 

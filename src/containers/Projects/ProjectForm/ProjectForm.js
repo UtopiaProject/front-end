@@ -235,7 +235,6 @@ class ProjectForm extends Component {
     projectInfo.createdAt = new Date().toLocaleString();
     projectInfo.fundingTarget = parseInt(projectForm.fundingTarget.value, 10) * 100;
     projectInfo.currentStep = 2;
-
     // If there's a loaded project, update it
     if (project && formIsValid) {
       projectInfo.id = project.id;
@@ -243,6 +242,7 @@ class ProjectForm extends Component {
       onUpdateProject(projectInfo);
       return;
     }
+    projectInfo.currentFunding = 0;
     if (formIsValid) onCreateProject(projectInfo);
   };
 

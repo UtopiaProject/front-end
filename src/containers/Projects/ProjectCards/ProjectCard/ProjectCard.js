@@ -9,9 +9,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
+import defaultProjectPicture from '../../../../assets/images/defaultProject.png';
+import trim from '../../../../helpers/Strings/Trim';
 import ProjectFundingStatus from '../../ProjectFunding/ProjectFundingStatus/ProjectFundingStatus';
 import ProjectFundingStatusBar from '../../ProjectFunding/ProjectFundingStatus/ProjectFundingStatusBar/ProjectFundingStatusBar';
-import trim from '../../../../helpers/Strings/Trim';
 
 const styles = {
   media: {
@@ -46,7 +47,7 @@ function MediaCard(props) {
       <CardActionArea className={classes.actionArea}>
         <CardMedia
           className={classes.media}
-          image={picture}
+          image={picture || defaultProjectPicture}
           title={trim(title, 10)}
         />
         <CardContent>
