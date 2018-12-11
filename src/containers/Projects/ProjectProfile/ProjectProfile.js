@@ -17,6 +17,7 @@ import ProjectNews from '../ProjectNews/ProjectNews';
 import ProjectDiscoveries from '../ProjectDiscoveries/ProjectDiscoveries';
 import ProjectReferences from '../ProjectReferences/ProjectReferences';
 import ProjectFeedback from '../ProjectFeedback/ProjectFeedback';
+import ProjectLicense from '../ProjectLicense/ProjectLicense';
 import CommentSection from '../CommentSection/CommentSection';
 import ProjectStep, { StepDescription } from '../ProjectStep/ProjectStep';
 import ProjectFunding from '../ProjectFunding/ProjectFunding';
@@ -161,12 +162,14 @@ class ProjectProfile extends Component {
                         <Tab label="Feedbacks" />
                         <Tab label="Descobertas" />
                         <Tab label="Referências" />
+                        <Tab label="Licença" />
                       </Tabs>
                     </AppBar>
                     {currentTab === 0 && <ProjectNews projectId={id} />}
                     {currentTab === 1 && <ProjectFeedback projectId={id} />}
                     {currentTab === 2 && <ProjectDiscoveries projectId={id} />}
                     {currentTab === 3 && <ProjectReferences projectId={id} />}
+                    {currentTab === 4 && <ProjectLicense />}
                   </div>
                 </Paper>
               </Grid>

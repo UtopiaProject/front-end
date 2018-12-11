@@ -13,6 +13,8 @@ import {
   List,
   ListItem,
   ListItemText,
+  FormControlLabel,
+  Checkbox,
 } from '@material-ui/core';
 import { updateObject, checkValidity } from '../../../helpers/Validation/Validation';
 import ProjectStep, { StepDescription } from '../ProjectStep/ProjectStep';
@@ -185,6 +187,7 @@ class ProjectForm extends Component {
         },
       },
     },
+    agree: false,
     formIsValid: false,
     errors: [],
   };
@@ -198,8 +201,12 @@ class ProjectForm extends Component {
     if (id) onLoadExistingProject(id);
   }
 
+  handleChange = name => (event) => {
+    this.setState({ [name]: event.target.checked });
+  }
+
   inputChangedHandler = (event, inputIdentifier) => {
-    const { projectForm } = this.state;
+    const { projectForm, agree } = this.state;
     const updatedFormElement = updateObject(projectForm[inputIdentifier], {
       value: event.target.value,
       valid: checkValidity(event.target.value, projectForm[inputIdentifier].validation),
@@ -214,6 +221,7 @@ class ProjectForm extends Component {
     Object.keys(updatedProjectForm).forEach((input) => {
       formIsValid = updatedProjectForm[input].valid && formIsValid;
     });
+    formIsValid = agree;
 
     this.setState({ projectForm: updatedProjectForm, formIsValid });
   };
@@ -248,7 +256,12 @@ class ProjectForm extends Component {
 
   render() {
     const { classes, project, serverError } = this.props;
-    const { projectForm, errors, formIsValid } = this.state;
+    const {
+      projectForm,
+      errors,
+      formIsValid,
+      agree,
+    } = this.state;
 
     // Fill in form with project's information, if present (editing).
     const formElements = Object.keys(projectForm).map((e) => {
@@ -328,6 +341,24 @@ class ProjectForm extends Component {
                 <Grid container spacing={24}>
                   {form}
                 </Grid>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      checked={agree}
+                      onChange={this.handleChange('agree')}
+                      value="agree"
+                      color="primary"
+                    />
+                  )}
+                  label="Concordo que meu projeto terá licença open source CC0"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>
+                  <a href="https://choosealicense.com/licenses/cc0-1.0/">Termos da licença Creative Commons v1.0</a>
+                </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Button
